@@ -1,0 +1,182 @@
+[
+  {
+    "id": "ghat_0001",
+    "category": "ghat",
+    "name": "Odha Ghat - Proposed",
+    "lng": 73.90663660696435,
+    "lat": 19.994447665972157,
+    "source": "Mobility plan Nashik KMZ (NTKMA)",
+    "avg_visit_minutes": 30
+  },
+  {
+    "id": "ghat_0002",
+    "category": "ghat",
+    "name": "Adiwashi pada takli holding point",
+    "lng": 73.82110298478516,
+    "lat": 19.9867932407169,
+    "source": "Mobility plan Nashik KMZ (NTKMA)",
+    "avg_visit_minutes": 30
+  },
+  {
+    "id": "ghat_0003",
+    "category": "ghat",
+    "name": "Someshwar Ghat - 16248 Sq.M.",
+    "lng": 73.72031054944372,
+    "lat": 20.0300571426547,
+    "source": "Mobility plan Nashik KMZ (NTKMA)",
+    "avg_visit_minutes": 30
+  },
+  {
+    "id": "ghat_0004",
+    "category": "ghat",
+    "name": "Navashya Ganpati HA - 12956 sqm",
+    "lng": 73.74220718056415,
+    "lat": 20.01658185174371,
+    "source": "Mobility plan Nashik KMZ (NTKMA)",
+    "avg_visit_minutes": 30
+  },
+  {
+    "id": "ghat_0005",
+    "category": "ghat",
+    "name": "Lakshminarayan Ghat 14525Sq.M",
+    "lng": 73.81016109712729,
+    "lat": 20.001186043835776,
+    "source": "Mobility plan Nashik KMZ (NTKMA)",
+    "avg_visit_minutes": 30
+  },
+  {
+    "id": "ghat_0006",
+    "category": "ghat",
+    "name": "Kapila Sangam Ghat - 26983",
+    "lng": 73.8143547453571,
+    "lat": 19.998424239573584,
+    "source": "Mobility plan Nashik KMZ (NTKMA)",
+    "avg_visit_minutes": 30
+  },
+  {
+    "id": "ghat_0007",
+    "category": "ghat",
+    "name": "Nandur Dasak HA - 3126 sq.m.",
+    "lng": 73.8475239529393,
+    "lat": 19.98990443974533,
+    "source": "Mobility plan Nashik KMZ (NTKMA)",
+    "avg_visit_minutes": 30
+  },
+  {
+    "id": "ghat_0008",
+    "category": "ghat",
+    "name": "Nandur Dasak HA - 9506 sq.m.",
+    "lng": 73.84885654587985,
+    "lat": 19.990095199302893,
+    "source": "Mobility plan Nashik KMZ (NTKMA)",
+    "avg_visit_minutes": 30
+  },
+  {
+    "id": "ghat_0009",
+    "category": "ghat",
+    "name": "Nandur Dasak  HA - 11434 sq.m.",
+    "lng": 73.84676628840006,
+    "lat": 19.99069373138752,
+    "source": "Mobility plan Nashik KMZ (NTKMA)",
+    "avg_visit_minutes": 30
+  },
+  {
+    "id": "ghat_0010",
+    "category": "ghat",
+    "name": "Nadur Dasak HA - 54603 sq.m.",
+    "lng": 73.84742455066583,
+    "lat": 19.987394274491187,
+    "source": "Mobility plan Nashik KMZ (NTKMA)",
+    "avg_visit_minutes": 30
+  },
+  {
+    "id": "ghat_0011",
+    "category": "ghat",
+    "name": "Navashya Ganpati Add HA - 53993 sq.m.",
+    "lng": 73.74151259853299,
+    "lat": 20.016914622485903,
+    "source": "Mobility plan Nashik KMZ (NTKMA)",
+    "avg_visit_minutes": 30
+  },
+  {
+    "id": "ghat_0012",
+    "category": "ghat",
+    "name": "Add Holding Area - 91444 sq.m.",
+    "lng": 73.8391775801627,
+    "lat": 19.983834438310215,
+    "source": "Mobility plan Nashik KMZ (NTKMA)",
+    "avg_visit_minutes": 30
+  },
+  {
+    "id": "ghat_0013",
+    "category": "ghat",
+    "name": "Odha Holding Area - 17986 sq.m.",
+    "lng": 73.90890895450748,
+    "lat": 19.996619018553222,
+    "source": "Mobility plan Nashik KMZ (NTKMA)",
+    "avg_visit_minutes": 30
+  },
+  {
+    "id": "ghat_0014",
+    "category": "ghat",
+    "name": "Talkuteshwar - 47759 Sq.M.",
+    "lng": 73.79768735388878,
+    "lat": 20.00310103069728,
+    "source": "Mobility plan Nashik KMZ (NTKMA)",
+    "avg_visit_minutes": 30
+  },
+  {
+    "id": "ghat_0015",
+    "category": "ghat",
+    "name": "Laksminarayan Ghat D - 73965 sq.m.",
+    "lng": 73.80733347046662,
+    "lat": 20.00020796881816,
+    "source": "Mobility plan Nashik KMZ (NTKMA)",
+    "avg_visit_minutes": 30
+  },
+  {
+    "id": "ghat_0016",
+    "category": "ghat",
+    "name": "Takali Sangam Ghat - 75465 Sq.m.",
+    "lng": 73.82337958513213,
+    "lat": 19.987630385875228,
+    "source": "Mobility plan Nashik KMZ (NTKMA)",
+    "avg_visit_minutes": 30
+  },
+  {
+    "id": "ghat_0017",
+    "category": "ghat",
+    "name": "Nandini Sangam Left Bank -72465 sq.m.",
+    "lng": 73.82520793706544,
+    "lat": 19.98970575291507,
+    "source": "Mobility plan Nashik KMZ (NTKMA)",
+    "avg_visit_minutes": 30
+  },
+  {
+    "id": "ghat_0018",
+    "category": "ghat",
+    "name": "Holding Area - Lakshminarayan Ghat Left Bank  - 65864 sq.m.",
+    "lng": 73.80088644202382,
+    "lat": 20.003171616382552,
+    "source": "Mobility plan Nashik KMZ (NTKMA)",
+    "avg_visit_minutes": 30
+  },
+  {
+    "id": "ghat_0019",
+    "category": "ghat",
+    "name": "Holding Area - Nandur Dasak - 69067 sq.m.",
+    "lng": 73.84266626605313,
+    "lat": 19.988857227239425,
+    "source": "Mobility plan Nashik KMZ (NTKMA)",
+    "avg_visit_minutes": 30
+  },
+  {
+    "id": "ghat_0020",
+    "category": "ghat",
+    "name": "Ramkund and near by Ghats",
+    "lng": 73.79253235773047,
+    "lat": 20.00738247141743,
+    "source": "Mobility plan Nashik KMZ (NTKMA)",
+    "avg_visit_minutes": 30
+  }
+]

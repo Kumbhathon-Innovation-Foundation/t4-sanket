@@ -1,9 +1,9 @@
-# ANUBHAV — Intelligent Pilgrim Experience Platform
+# ANUBHAV — Intelligent Pilgrim Mobility & Planning Platform
 
 **Team:** Sanket  
 **Tower:** 4 - Pilgrim Experience  
-**Event:** Kumbhathon SPRINT  
-**Owning System:** Pilgrim-facing intelligence layer of Kumbh Saathi 2.0 (Powered by PRAVAH Decision Engine)
+**Event:** Kumbhathon SPRINT 2026  
+**System:** AI-Agent Pilgrimage Planning & Execution System grounded in Real Nashik Kumbh Mobility Network
 
 ---
 
@@ -16,113 +16,241 @@
 
 ---
 
-## 1. Problem
+## 📌 Executive Summary
 
-Pilgrims arriving at Kumbh Mela 2026 cannot easily get a single, trustworthy, real-time answer to *"what should I do right now"* — which route is safe, where to park, where to find clean sanitation, where food is available — especially when official restrictions (police emergency orders, VIP processions) override raw crowd sensor telemetry. 
+During the **Nashik Trimbakeshwar Kumbh Mela 2026**, over 10 million pilgrims arrive daily facing heavy congestion, complex parking regulations, walking restrictions, and shifting crowd densities. 
 
-Today that intelligence exists only inside the **PRAVAH** admin control room. Pilgrims have no direct access to it.
-
----
-
-## 2. Solution: ANUBHAV & PRAVAH
-
-**ANUBHAV** is the pilgrim-facing AI assistant connected to **PRAVAH's** shared Decision Engine. It is not an LLM guessing answers:
-- **One Shared Brain:** ANUBHAV consumes the exact same domain services (`services/index.ts`) and Supabase schema as the PRAVAH control room.
-- **Strict Legal Authority Priority:** 
-  $$\text{Tactical Override (Police Order)} > \text{Verified Advisory} > \text{Automated Guidance (Crowd Sensors)} > \text{Telemetry}$$
-- **Instant Realtime Sync:** When an admin in the control room pushes a Tactical Override (e.g. force-closing Route R18), every pilgrim's agent reflects it within seconds via Supabase Realtime without manual refresh or redeploy.
-- **Zero-WiFi Fallback:** Runs seamlessly in `DATA_MODE=demo` offline with zero API latency.
+**ANUBHAV** (*अनुभव*) is a production-grade, multimodal AI mobility assistant that transforms free-form voice and text requests in **Hindi, Marathi, and English** into executable, turn-by-turn pilgrimage itineraries. Grounded in **3,266 real geo-located Kumbh data points** across Nashik and Panchavati, ANUBHAV combines:
+1. **Dual-Provider Agent Intelligence** (Google Gemini 3.6 Flash with automated Groq / xAI fallback)
+2. **Real-World Pedestrian & Highway Routing** via OSRM (real footpath polylines, not straight-line stubs)
+3. **Official Kumbh Traffic Zoning Rules** (routing highway private cars to outer staging lots + government electric feeder shuttles)
+4. **Native Cross-Platform Mobile & Web Client** built with Flutter, featuring live GPS tracking, step simulation, proactive proximity heritage alerts, in-journey detours, and return-to-parking routing.
 
 ---
 
-## 3. Architecture
+## 🚀 Key Innovations & Capabilities
+
+### 1. Multilingual Voice-First Planning (Hindi, Marathi, English)
+- Pilgrims can speak naturally:
+  - *Hindi*: "धुले से कार से आ रहे हैं, रामकुंड में पवित्र स्नान करना है, पूरी यात्रा की योजना बनाएं।"
+  - *Marathi*: "आई-वडिलांसोबत नाशिकमधील प्रमुख मंदिरांचे दर्शन घ्यायचे आहे, एक नियोजन तयार करा."
+  - *English*: "Coming from Mumbai by car, want to perform holy snan at Ramkund with my elderly parents."
+- The agent accurately speaks back in the user's native language with synchronized visual chat bubbles.
+
+### 2. Outer-Zone Parking & Feeder Shuttle Transit Integration
+- Per Kumbh Mela traffic guidelines, private vehicles arriving from highways (Dhule, Mumbai, Pune) are directed to **outer parking staging zones** (e.g. Panjarpol Outer Lot, Valdevi Staging).
+- Generates a 4-leg tactical sequence:
+  1. `parking`: Park private vehicle at designated outer lot (₹20).
+  2. `transit_segment`: Government electric feeder shuttle to inner Panchavati Drop Point (₹15, departs every 5 mins).
+  3. `walk_segment`: Real footpath routing from drop point to sacred destination.
+  4. `visit`: Sacred darshan/snan queue with live wait telemetry.
+
+### 3. Crowd-Aware Sequencing for Families & Elders
+- If Ramkund ghat congestion is high, ANUBHAV automatically prioritizes less-crowded, step-free prominent temples first (**Kalaram Sansthan Temple** with wheelchair ramp $\rightarrow$ **Kapaleshwar Temple** $\rightarrow$ **Ramkund Ghat**), explaining the reasoning aloud.
+
+### 4. Interactive Live Map with Real Walk Simulation & Proximity Audio
+- Native Flutter map overlay with turn-by-turn route polylines.
+- Built-in **Walk Simulator (1x, 5x, 20x)** allowing pilgrims and judges to experience walking through the sacred corridor.
+- **Proximity Audio Alerts**: As pilgrims walk past prominent heritage shrines, ANUBHAV proactively speaks alerts aloud (*"Kalaram Temple is on your left, 60 meters away. Tap to visit."*).
+
+### 5. In-Journey Detours & Quick Facility Search
+- Pilgrims can search for **Toilets, Annakshetra Food, Medical, or Temples** mid-journey.
+- Tapping **"Detour Here"** triggers surgical, sub-second OSRM rerouting through the amenity and onward to the final destination without LLM latency.
+- Home page includes one-tap **"Go" Direct Navigation** to immediate facilities.
+
+### 6. "Way Back to Your Parking" Return Navigation
+- Upon reaching the sacred dip at Ramkund, ANUBHAV announces darshan completion and activates a prominent **"Way Back to Parking"** flow.
+- Generates the return journey (Ramkund $\rightarrow$ Panchavati Drop Point $\rightarrow$ return feeder shuttle to outer parking $\rightarrow$ parked vehicle).
+
+---
+
+## 🏛️ System Architecture
 
 ```
-                 PRAVAH Command Center (Admin)
-                              │
-                      [1-Click Override]
-                              │
-                              ▼
-            ┌───────────────────────────────────┐
-            │   Supabase Realtime & Postgres    │
-            │   (Shared Operational Database)   │
-            └───────────────────────────────────┘
-                              ▲
-                              │ Live Tool Calls
-                              │
-                      /api/agent Endpoint
-                              │
-                      ANUBHAV PWA (Pilgrim)
-              (Tier Badges: 🔴 OVERRIDE | 🔵 ADVISORY | 🟡 AUTOMATED)
+                          ┌────────────────────────────────────────┐
+                          │     Flutter App (Android / Web / Win)  │
+                          │   Home / Live Map / Explore / Audio    │
+                          └───────┬────────────────────────┬───────┘
+                                  │                        │
+                         HTTP     │                        │ Supabase Realtime
+               (/plan, /patch)    │                        │ (Live Corridor Alerts
+                                  │                        │  & Trip Patches)
+                                  ▼                        ▼
+                      ┌──────────────────────┐     ┌──────────────────────┐
+                      │   FastAPI Backend    │     │   Supabase Postgres  │
+                      │  (tool_executor.py,  │────▶│ (3,266 Kumbh POIs,   │
+                      │   agent.py, OSRM)    │◀────│  Trips, Trip Patches)│
+                      └──────────┬───────────┘     └──────────────────────┘
+                                 │
+                        Dual LLM Provider
+                                 │
+              ┌──────────────────┴──────────────────┐
+              ▼                                     ▼
+       Google Gemini 3.6 Flash               Groq / xAI Fallback
+       (Native Tool-Use Loop)                (On 429 / Quota Limits)
 ```
 
-### The 4 Canonical Domain Tools
-1. `get_guidance_board()` — Route and crowd status tiered by legal authority
-2. `get_parking_status()` — Live bay availability and occupancy (P09, etc.)
-3. `get_food_availability()` — Active kitchens, meals remaining, buffer reserves (K08, etc.)
-4. `get_facility_status()` — Sanitation facilities, distance, and verified queue wait times (T12, etc.)
+### 8 Canonical Domain Tools Grounded in Real Kumbh Data:
+1. `get_parking_options(vehicle_type, dest_lat, dest_lng)` — Filters outer vs. inner lots by origin and highway corridor.
+2. `get_transit_options(parking_id, target_ghat_id)` — Connects outer parking to inner pedestrian zones via feeder shuttles.
+3. `get_route(from_lat, from_lng, to_lat, to_lng, mode)` — Real road/footpath routing via OSRM.
+4. `get_snan_window(ghat_id, target_time)` — Live ghat queue times and crowd telemetry.
+5. `get_restrictions_and_advisories(corridor_ids)` — Police crowd controls and corridor diversions.
+6. `find_nearby(lat, lng, category, max_dist_m)` — Nearest toilets, water, medical, food.
+7. `rank_by_experience(candidates, target_type)` — Ranks options by queue time, wait, and accessibility.
+8. `get_poi_details(poi_id)` — Rich historical and cultural heritage context.
 
 ---
 
-## 4. Quick Start: How to Run Locally
+## 📦 Repository Structure
+
+```
+.
+├── backend/
+│   ├── agent.py                 # Core AI Pilgrim Agent with Gemini & Groq fallback
+│   ├── llm_client.py            # Dual-provider LLM client (Gemini 3.6 + Groq)
+│   ├── main.py                  # FastAPI server (/plan, /patch, /admin)
+│   ├── realtime_watcher.py      # Background daemon monitoring police advisories
+│   ├── requirements.txt         # Python dependencies
+│   ├── schema.sql               # Supabase database schema & RLS policies
+│   ├── schemas.py               # ITINERARY_SCHEMA and Pydantic models
+│   ├── seed_supabase.py         # Automated loader for 3,266 records
+│   ├── supabase_client.py       # Supabase service-role client
+│   ├── test_return_and_multi.py # Verification for multi-temple & return-to-parking
+│   ├── test_stage9.py           # Verification for outer transit & start journey
+│   └── tool_executor.py         # Real OSRM routing and Supabase tool execution
+├── data/                        # 3,266 Master Kumbh Geo-Datasets
+│   ├── advisory_corridors.json  # 215 corridor segments
+│   ├── facilities.json          # 1,045 sanitation & health posts
+│   ├── food_utility.json        # 860 Annakshetra kitchens & drinking water
+│   ├── parking_zones.json       # 52 outer and inner parking bays
+│   ├── pois_ghats.json          # 20 sacred ghats
+│   └── pois_temples.json        # 1,074 heritage temples & shrines
+├── docs/
+│   └── anubhav-ai-agent-architecture.md  # Comprehensive system design specification
+├── flutter_app/                 # Flutter Cross-Platform Client
+│   ├── lib/
+│   │   ├── config.dart          # Supabase & backend configuration constants
+│   │   ├── main.dart            # Navigation entry point (Plan, Live Map, Explore)
+│   │   ├── models/              # Itinerary, POI, and Place models
+│   │   ├── screens/
+│   │   │   ├── home_screen.dart        # Voice/Text input & facility search
+│   │   │   ├── map_screen.dart         # Native map stack, simulation, detours
+│   │   │   ├── explore_screen.dart     # Directory of 3,266 sites
+│   │   │   └── place_detail_screen.dart# Structured telemetry cards & CTAs
+│   │   ├── services/
+│   │   │   ├── api_service.dart        # FastAPI HTTP client
+│   │   │   ├── location_service.dart   # GPS & bearing calculation
+│   │   │   ├── supabase_service.dart   # Live Supabase client
+│   │   │   └── voice_service.dart      # Web/Mobile TTS & STT engine
+│   │   └── widgets/             # Nearby carousel, timeline, markers
+│   ├── test/                    # 11 unit & widget test suites
+│   └── pubspec.yaml             # Flutter dependencies
+├── .env.example                 # Sanitized environment template
+├── .gitignore                   # Comprehensive root gitignore
+├── DEMO.md                      # Live demonstration guide, steps & testing scenarios
+├── README.md                    # This documentation file
+└── SUBMISSION.md                # SPRINT judging checklist
+```
+
+---
+
+## ⚡ Quick Start: How to Run
 
 ### Prerequisites
-- Node.js 18+ & npm (or Bun)
+- **Python 3.10+**
+- **Flutter SDK 3.22+** (with Chrome or Android device)
 - Git
 
-### Installation & Launch
+---
+
+### Step 1: Clone Repository & Setup Environment
 
 ```bash
-# 1. Clone repository
 git clone https://github.com/Kumbhathon-Innovation-Foundation/t4-sanket.git
 cd t4-sanket
-
-# 2. Install dependencies
-cd app/admin
-npm install
-
-# 3. Start development server
-npm run dev
 ```
 
-The application will start at **`http://localhost:3000`**.
+Copy the environment template:
+```bash
+cp .env.example .env
+cp .env.example backend/.env
+```
+*(Pre-configured with active Supabase test keys for immediate judging).*
 
 ---
 
-## 5. Main Application Routes
+### Step 2: Launch the FastAPI Backend
 
-| Route | Description | Target Audience |
-|---|---|---|
-| **`/pilgrim`** | **ANUBHAV Mobile AI Assistant** — Mobile-first PWA chat, interactive structured cards, tier badges, real-time override alerts. | Pilgrims & Citizens |
-| **`/admin/guidance`** | **PRAVAH Guidance Hub & Hero Controller** — 5-tab Decision Engine with 1-click `[⚡ Force-Close Route R18]` projector button. | Police & Command Center |
-| **`/admin/crowd`** | Real-time crowd density monitoring across all 6 Kumbh sectors. | Operations Admin |
-| **`/admin/parking`** | Parking lot capacity & auto-diversions. | Traffic Police |
-| **`/admin/food`** | Annakshetra supply, shortages & crowd meal demand. | Food Coordinators |
-| **`/admin/facilities`** | Sanitation queue status and water pressure telemetry. | Municipal Corp |
-| **`/kisko`** | **KISKO Citizen Kiosk Simulator** — 55" high-contrast terminal for pilgrims without smartphones. | Public Transit Kiosks |
+```bash
+cd backend
+pip install -r requirements.txt
+uvicorn main:app --host 127.0.0.1 --port 8000 --reload
+```
 
----
-
-## 6. Supabase Database Setup
-
-### Option A: Supabase Cloud (Fastest, ~3 mins)
-1. Create a free project at [supabase.com](https://supabase.com).
-2. Open **SQL Editor** in your Supabase Dashboard.
-3. Copy & paste the all-in-one setup file: [`supabase/setup_all.sql`](supabase/setup_all.sql) and click **Run**.
-4. Copy your `Project URL` and `anon key` from **Project Settings → API**.
-5. Put them in `app/admin/.env`:
-   ```ini
-   VITE_DATA_MODE=supabase
-   VITE_SUPABASE_URL=https://your-project.supabase.co
-   VITE_SUPABASE_ANON_KEY=your-anon-key
-   ```
-6. Restart dev server: `npm run dev`.
-
-### Option B: Local Demo Mode (Zero Config)
-Leave `VITE_DATA_MODE=demo` in `app/admin/.env`. The application runs 100% offline with preloaded deterministic Kumbh Mela data.
+- API Server runs at: `http://127.0.0.1:8000`
+- Interactive Swagger UI: `http://127.0.0.1:8000/docs`
 
 ---
 
-## 7. Showcase Demo Walkthrough
+### Step 3: Launch the Flutter Application
 
-See [`docs/DEMO_SCRIPT.md`](docs/DEMO_SCRIPT.md) for the exact 5-minute timed presentation script and click sequence.
+In a separate terminal:
+```bash
+cd flutter_app
+flutter pub get
+flutter run -d chrome
+```
+*(Or run on Android: `flutter run -d <android-device-id>` or Windows Desktop: `flutter run -d windows`)*.
+
+---
+
+## 🧪 Deterministic Test Commands for Judges
+
+Run these automated verification suites anytime to validate system correctness:
+
+### 1. Backend Multi-Temple & Return-to-Parking Test
+```bash
+python backend/test_return_and_multi.py
+```
+*Validates 7-stop family itinerary, outer shuttle transit, and sub-second return journey patching.*
+
+### 2. Backend Outer-Zone Transit & Multilingual Schema Test
+```bash
+python backend/test_stage9.py
+```
+*Validates highway vehicle detection, Panjarpol outer staging lot, electric feeder shuttle, and Hindi summary synthesis.*
+
+### 3. Flutter Static Analysis
+```bash
+cd flutter_app
+flutter analyze
+```
+*Expected: 0 issues found.*
+
+### 4. Flutter Unit & Widget Test Suite
+```bash
+cd flutter_app
+flutter test
+```
+*Executes all 11 unit and widget tests covering detours, timeline, detail sheets, and navigation.*
+
+---
+
+## 📋 Sample Test Queries for Judges
+
+| Mode | Language | Query Input | What ANUBHAV Does |
+|---|---|---|---|
+| **Voice / Text** | **Hindi** | *"धुले से कार से आ रहे हैं, रामकुंड में पवित्र स्नान करना है, पूरी यात्रा योजना दीजिए।"* | Identifies Dhule highway arrival $\rightarrow$ assigns **Panjarpol Outer Parking** $\rightarrow$ connects **Govt Feeder Shuttle** to Panchavati $\rightarrow$ walks to Ramkund. Spoken in Hindi. |
+| **Voice / Text** | **Marathi** | *"आई-वडिलांसोबत नाशिकमधील प्रमुख मंदिरांचे दर्शन घ्यायचे आहे, नियोजन करा."* | Crowd-aware check: avoids high-crowd ghat first $\rightarrow$ sequences **Kalaram Temple (wheelchair ramp)** $\rightarrow$ **Kapaleshwar Temple** $\rightarrow$ **Ramkund Ghat**. Spoken in Marathi. |
+| **In-Journey Detour** | **Any** | Tap **"🚻 Toilets Near Me"** or **"🍜 Food Near Me"** $\rightarrow$ Tap **"Detour Here"** | Reroutes current route through the selected amenity in <0.5s and continues to Ramkund with voice announcement. |
+| **Return Flow** | **Any** | Reach Ramkund in Simulation $\rightarrow$ Tap **"Way Back"** | Automatically generates the return leg back to the parked vehicle via Panchavati feeder shuttle. |
+
+---
+
+## 🛡️ Judging & Evaluation Notes
+
+1. **Active Online Supabase Instance Preloaded**: All 3,266 Kumbh records are hosted and immediately queried.
+2. **Dual-LLM High Availability**: If Google Gemini encounters rate limits (HTTP 429), ANUBHAV automatically fails over to Groq without crashing or stalling.
+3. **True OSRM Geometries**: All polyline coordinates trace real walkable roads and pedestrian corridors in Nashik.
+4. **Hands-Free Accessibility**: Spoken audio operates out of the box with an accessible mute toggle for crowds.

@@ -1,0 +1,522 @@
+[
+  {
+    "id": "parking_0001",
+    "name": "additional parking",
+    "zone_type": "outer",
+    "lng": 73.71281711562604,
+    "lat": 19.982794474095737,
+    "capacity_total_SYNTH": 200,
+    "capacity_occupied_SYNTH": null,
+    "fare_estimate_inr_SYNTH": 20
+  },
+  {
+    "id": "parking_0002",
+    "name": "Panjarpol Outer Parking",
+    "zone_type": "outer",
+    "lng": 73.80462906351775,
+    "lat": 20.049015774125536,
+    "capacity_total_SYNTH": 200,
+    "capacity_occupied_SYNTH": null,
+    "fare_estimate_inr_SYNTH": 20
+  },
+  {
+    "id": "parking_0003",
+    "name": "Panjarpol Outer Parking",
+    "zone_type": "outer",
+    "lng": 73.80054796675367,
+    "lat": 20.047547940743225,
+    "capacity_total_SYNTH": 200,
+    "capacity_occupied_SYNTH": null,
+    "fare_estimate_inr_SYNTH": 20
+  },
+  {
+    "id": "parking_0004",
+    "name": "THAKKAR GROUND - outer parking",
+    "zone_type": "outer",
+    "lng": 73.79477825589966,
+    "lat": 20.052201138344053,
+    "capacity_total_SYNTH": 200,
+    "capacity_occupied_SYNTH": null,
+    "fare_estimate_inr_SYNTH": 20
+  },
+  {
+    "id": "parking_0005",
+    "name": "Jain Mnadir Parking",
+    "zone_type": "outer",
+    "lng": 73.71822451743041,
+    "lat": 19.930185416134915,
+    "capacity_total_SYNTH": 200,
+    "capacity_occupied_SYNTH": null,
+    "fare_estimate_inr_SYNTH": 20
+  },
+  {
+    "id": "parking_0006",
+    "name": "Plot opposite Madsangavi Shiwar S. No. 62",
+    "zone_type": "outer",
+    "lng": 73.86368870811391,
+    "lat": 20.000704526449727,
+    "capacity_total_SYNTH": 200,
+    "capacity_occupied_SYNTH": null,
+    "fare_estimate_inr_SYNTH": 20
+  },
+  {
+    "id": "parking_0007",
+    "name": "Identified adgaon parking location",
+    "zone_type": "outer",
+    "lng": 73.88216096768761,
+    "lat": 20.050195374697626,
+    "capacity_total_SYNTH": 200,
+    "capacity_occupied_SYNTH": null,
+    "fare_estimate_inr_SYNTH": 20
+  },
+  {
+    "id": "parking_0008",
+    "name": "Madsangavi Shiwar S. No. 459",
+    "zone_type": "outer",
+    "lng": 73.86486926548392,
+    "lat": 19.998954171519657,
+    "capacity_total_SYNTH": 200,
+    "capacity_occupied_SYNTH": null,
+    "fare_estimate_inr_SYNTH": 20
+  },
+  {
+    "id": "parking_0009",
+    "name": "NMC School",
+    "zone_type": "outer",
+    "lng": 73.71878845254551,
+    "lat": 20.02867950418187,
+    "capacity_total_SYNTH": 200,
+    "capacity_occupied_SYNTH": null,
+    "fare_estimate_inr_SYNTH": 20
+  },
+  {
+    "id": "parking_0010",
+    "name": "Sambhaji Stadium",
+    "zone_type": "outer",
+    "lng": 73.75671180164292,
+    "lat": 19.96099905771434,
+    "capacity_total_SYNTH": 200,
+    "capacity_occupied_SYNTH": null,
+    "fare_estimate_inr_SYNTH": 20
+  },
+  {
+    "id": "parking_0011",
+    "name": "APMC Market",
+    "zone_type": "outer",
+    "lng": 73.84905928336514,
+    "lat": 19.949891589015923,
+    "capacity_total_SYNTH": 200,
+    "capacity_occupied_SYNTH": null,
+    "fare_estimate_inr_SYNTH": 20
+  },
+  {
+    "id": "parking_0012",
+    "name": "Arogya vidhya vidyanan",
+    "zone_type": "outer",
+    "lng": 73.8065433342514,
+    "lat": 20.075428858502526,
+    "capacity_total_SYNTH": 200,
+    "capacity_occupied_SYNTH": null,
+    "fare_estimate_inr_SYNTH": 20
+  },
+  {
+    "id": "parking_0013",
+    "name": "Peth Road Cricket Stadium",
+    "zone_type": "outer",
+    "lng": 73.78207960728575,
+    "lat": 20.084270219357197,
+    "capacity_total_SYNTH": 200,
+    "capacity_occupied_SYNTH": null,
+    "fare_estimate_inr_SYNTH": 20
+  },
+  {
+    "id": "parking_0014",
+    "name": "Additional area - NMC school",
+    "zone_type": "outer",
+    "lng": 73.7189971683449,
+    "lat": 20.027645027268495,
+    "capacity_total_SYNTH": 200,
+    "capacity_occupied_SYNTH": null,
+    "fare_estimate_inr_SYNTH": 20
+  },
+  {
+    "id": "parking_0015",
+    "name": "Plot adjacent to 60 M DP road land",
+    "zone_type": "outer",
+    "lng": 73.84312276140857,
+    "lat": 19.9404149189514,
+    "capacity_total_SYNTH": 200,
+    "capacity_occupied_SYNTH": null,
+    "fare_estimate_inr_SYNTH": 20
+  },
+  {
+    "id": "parking_0016",
+    "name": "Plot near 60 M DP road part 2",
+    "zone_type": "outer",
+    "lng": 73.84456124692886,
+    "lat": 19.945674125140634,
+    "capacity_total_SYNTH": 200,
+    "capacity_occupied_SYNTH": null,
+    "fare_estimate_inr_SYNTH": 20
+  },
+  {
+    "id": "parking_0017",
+    "name": "Untitled Polygon",
+    "zone_type": "outer",
+    "lng": 73.80698017205535,
+    "lat": 20.075525964920466,
+    "capacity_total_SYNTH": 200,
+    "capacity_occupied_SYNTH": null,
+    "fare_estimate_inr_SYNTH": 20
+  },
+  {
+    "id": "parking_0018",
+    "name": "Adj. to Jugnu hotel",
+    "zone_type": "outer",
+    "lng": 73.81058374712852,
+    "lat": 20.06155519807157,
+    "capacity_total_SYNTH": 200,
+    "capacity_occupied_SYNTH": null,
+    "fare_estimate_inr_SYNTH": 20
+  },
+  {
+    "id": "parking_0019",
+    "name": "S. No. 150 / 1",
+    "zone_type": "outer",
+    "lng": 73.717359791811,
+    "lat": 19.936665569036556,
+    "capacity_total_SYNTH": 200,
+    "capacity_occupied_SYNTH": null,
+    "fare_estimate_inr_SYNTH": 20
+  },
+  {
+    "id": "parking_0020",
+    "name": "S. No. 146/1",
+    "zone_type": "outer",
+    "lng": 73.71419366746723,
+    "lat": 19.93974223836828,
+    "capacity_total_SYNTH": 200,
+    "capacity_occupied_SYNTH": null,
+    "fare_estimate_inr_SYNTH": 20
+  },
+  {
+    "id": "parking_0021",
+    "name": "NMC inner parking - Near Dive Bungalow",
+    "zone_type": "inner",
+    "lng": 73.81962669534467,
+    "lat": 19.98306088867987,
+    "capacity_total_SYNTH": 200,
+    "capacity_occupied_SYNTH": null,
+    "fare_estimate_inr_SYNTH": 20
+  },
+  {
+    "id": "parking_0022",
+    "name": "Press Quarters, Nehru Nagar",
+    "zone_type": "inner",
+    "lng": 73.82768426659172,
+    "lat": 19.968996350557095,
+    "capacity_total_SYNTH": 200,
+    "capacity_occupied_SYNTH": null,
+    "fare_estimate_inr_SYNTH": 20
+  },
+  {
+    "id": "parking_0023",
+    "name": "Press Quarters, Nehru Nagar Part 2",
+    "zone_type": "inner",
+    "lng": 73.82454502471542,
+    "lat": 19.968388408485744,
+    "capacity_total_SYNTH": 200,
+    "capacity_occupied_SYNTH": null,
+    "fare_estimate_inr_SYNTH": 20
+  },
+  {
+    "id": "parking_0024",
+    "name": "Pick-up area",
+    "zone_type": "inner",
+    "lng": 73.7695570665811,
+    "lat": 20.036228247065715,
+    "capacity_total_SYNTH": 200,
+    "capacity_occupied_SYNTH": null,
+    "fare_estimate_inr_SYNTH": 20
+  },
+  {
+    "id": "parking_0025",
+    "name": "Mira Empire",
+    "zone_type": "inner",
+    "lng": 73.738580920831,
+    "lat": 20.039941571604736,
+    "capacity_total_SYNTH": 200,
+    "capacity_occupied_SYNTH": null,
+    "fare_estimate_inr_SYNTH": 20
+  },
+  {
+    "id": "parking_0026",
+    "name": "Youva festival Road",
+    "zone_type": "inner",
+    "lng": 73.8344738178572,
+    "lat": 20.013388888714342,
+    "capacity_total_SYNTH": 200,
+    "capacity_occupied_SYNTH": null,
+    "fare_estimate_inr_SYNTH": 20
+  },
+  {
+    "id": "parking_0027",
+    "name": "50% NMC owned",
+    "zone_type": "inner",
+    "lng": 73.83353800504949,
+    "lat": 20.013672724801733,
+    "capacity_total_SYNTH": 200,
+    "capacity_occupied_SYNTH": null,
+    "fare_estimate_inr_SYNTH": 20
+  },
+  {
+    "id": "parking_0028",
+    "name": "50 % requisition",
+    "zone_type": "inner",
+    "lng": 73.83554833582045,
+    "lat": 20.013121857157167,
+    "capacity_total_SYNTH": 200,
+    "capacity_occupied_SYNTH": null,
+    "fare_estimate_inr_SYNTH": 20
+  },
+  {
+    "id": "parking_0029",
+    "name": "Additional Parking area - Gandhinagar Press land",
+    "zone_type": "inner",
+    "lng": 73.81945927779982,
+    "lat": 19.979904224533037,
+    "capacity_total_SYNTH": 200,
+    "capacity_occupied_SYNTH": null,
+    "fare_estimate_inr_SYNTH": 20
+  },
+  {
+    "id": "parking_0030",
+    "name": "Idgaha Maidan",
+    "zone_type": "inner",
+    "lng": 73.77999320920695,
+    "lat": 19.995010420551775,
+    "capacity_total_SYNTH": 200,
+    "capacity_occupied_SYNTH": null,
+    "fare_estimate_inr_SYNTH": 20
+  },
+  {
+    "id": "parking_0031",
+    "name": "Mahamarg Bus Stand",
+    "zone_type": "inner",
+    "lng": 73.78256645779172,
+    "lat": 19.986392224250057,
+    "capacity_total_SYNTH": 200,
+    "capacity_occupied_SYNTH": null,
+    "fare_estimate_inr_SYNTH": 20
+  },
+  {
+    "id": "parking_0032",
+    "name": "Natyagruha - NMC Reservation - staging area",
+    "zone_type": "inner",
+    "lng": 73.83786007682781,
+    "lat": 19.95687302452523,
+    "capacity_total_SYNTH": 200,
+    "capacity_occupied_SYNTH": null,
+    "fare_estimate_inr_SYNTH": 20
+  },
+  {
+    "id": "parking_0033",
+    "name": "Belgaon Dhaga Gat no.140,167,",
+    "zone_type": "outer",
+    "lng": 73.68438454260955,
+    "lat": 19.971114248277196,
+    "capacity_total_SYNTH": 200,
+    "capacity_occupied_SYNTH": null,
+    "fare_estimate_inr_SYNTH": 20
+  },
+  {
+    "id": "parking_0034",
+    "name": "Belgaon Dhaga Gat no 140",
+    "zone_type": "outer",
+    "lng": 73.68136524438971,
+    "lat": 19.96843974318987,
+    "capacity_total_SYNTH": 200,
+    "capacity_occupied_SYNTH": null,
+    "fare_estimate_inr_SYNTH": 20
+  },
+  {
+    "id": "parking_0035",
+    "name": "Belgaon Dhaga Gat no.121,122,120,119",
+    "zone_type": "outer",
+    "lng": 73.68119551378061,
+    "lat": 19.957244277155272,
+    "capacity_total_SYNTH": 200,
+    "capacity_occupied_SYNTH": null,
+    "fare_estimate_inr_SYNTH": 20
+  },
+  {
+    "id": "parking_0036",
+    "name": "Rajur Bahula",
+    "zone_type": "outer",
+    "lng": 73.71135516594201,
+    "lat": 19.907094058552467,
+    "capacity_total_SYNTH": 200,
+    "capacity_occupied_SYNTH": null,
+    "fare_estimate_inr_SYNTH": 20
+  },
+  {
+    "id": "parking_0037",
+    "name": "Parking opposite Rajur Bahula parking",
+    "zone_type": "outer",
+    "lng": 73.70577230588383,
+    "lat": 19.914831892333396,
+    "capacity_total_SYNTH": 200,
+    "capacity_occupied_SYNTH": null,
+    "fare_estimate_inr_SYNTH": 20
+  },
+  {
+    "id": "parking_0038",
+    "name": "Moh chincholi additional",
+    "zone_type": "outer",
+    "lng": 73.92496943708964,
+    "lat": 19.89915863188119,
+    "capacity_total_SYNTH": 200,
+    "capacity_occupied_SYNTH": null,
+    "fare_estimate_inr_SYNTH": 20
+  },
+  {
+    "id": "parking_0039",
+    "name": "Moh Chincholi parking - private vehicles",
+    "zone_type": "outer",
+    "lng": 73.92714230706456,
+    "lat": 19.898216957291737,
+    "capacity_total_SYNTH": 200,
+    "capacity_occupied_SYNTH": null,
+    "fare_estimate_inr_SYNTH": 20
+  },
+  {
+    "id": "parking_0040",
+    "name": "Bardi / Lakhalgaon Parking",
+    "zone_type": "outer",
+    "lng": 73.91622323489685,
+    "lat": 19.995765221027266,
+    "capacity_total_SYNTH": 200,
+    "capacity_occupied_SYNTH": null,
+    "fare_estimate_inr_SYNTH": 20
+  },
+  {
+    "id": "parking_0041",
+    "name": "Khambale 1",
+    "zone_type": "outer",
+    "lng": 73.6367737017963,
+    "lat": 19.95339205224939,
+    "capacity_total_SYNTH": 200,
+    "capacity_occupied_SYNTH": null,
+    "fare_estimate_inr_SYNTH": 20
+  },
+  {
+    "id": "parking_0042",
+    "name": "Khambale 1",
+    "zone_type": "outer",
+    "lng": 73.63803264359359,
+    "lat": 19.954307658181847,
+    "capacity_total_SYNTH": 200,
+    "capacity_occupied_SYNTH": null,
+    "fare_estimate_inr_SYNTH": 20
+  },
+  {
+    "id": "parking_0043",
+    "name": "Khambale 1",
+    "zone_type": "outer",
+    "lng": 73.63818857056036,
+    "lat": 19.95694993390746,
+    "capacity_total_SYNTH": 200,
+    "capacity_occupied_SYNTH": null,
+    "fare_estimate_inr_SYNTH": 20
+  },
+  {
+    "id": "parking_0044",
+    "name": "Khambale 2",
+    "zone_type": "outer",
+    "lng": 73.64077253849008,
+    "lat": 19.96448447837805,
+    "capacity_total_SYNTH": 200,
+    "capacity_occupied_SYNTH": null,
+    "fare_estimate_inr_SYNTH": 20
+  },
+  {
+    "id": "parking_0045",
+    "name": "Lakhalgaon Outer parking 2",
+    "zone_type": "outer",
+    "lng": 73.91620388946505,
+    "lat": 20.000918869974097,
+    "capacity_total_SYNTH": 200,
+    "capacity_occupied_SYNTH": null,
+    "fare_estimate_inr_SYNTH": 20
+  },
+  {
+    "id": "parking_0046",
+    "name": "Dhakambe parking revised",
+    "zone_type": "outer",
+    "lng": 73.81022756647337,
+    "lat": 20.095579982772843,
+    "capacity_total_SYNTH": 200,
+    "capacity_occupied_SYNTH": null,
+    "fare_estimate_inr_SYNTH": 20
+  },
+  {
+    "id": "parking_0047",
+    "name": "Dhakambe parking revised 2",
+    "zone_type": "outer",
+    "lng": 73.81698921368816,
+    "lat": 20.09222704421403,
+    "capacity_total_SYNTH": 200,
+    "capacity_occupied_SYNTH": null,
+    "fare_estimate_inr_SYNTH": 20
+  },
+  {
+    "id": "parking_0048",
+    "name": "Parking opposite Tata showroom",
+    "zone_type": "outer",
+    "lng": 73.88886144592472,
+    "lat": 20.0520558504385,
+    "capacity_total_SYNTH": 200,
+    "capacity_occupied_SYNTH": null,
+    "fare_estimate_inr_SYNTH": 20
+  },
+  {
+    "id": "parking_0049",
+    "name": "Parking behind Tata showroom",
+    "zone_type": "outer",
+    "lng": 73.8759888253747,
+    "lat": 20.062881004797823,
+    "capacity_total_SYNTH": 200,
+    "capacity_occupied_SYNTH": null,
+    "fare_estimate_inr_SYNTH": 20
+  },
+  {
+    "id": "parking_0050",
+    "name": "Moh Chincholi parking revised",
+    "zone_type": "outer",
+    "lng": 73.92501335168181,
+    "lat": 19.888574066730435,
+    "capacity_total_SYNTH": 200,
+    "capacity_occupied_SYNTH": null,
+    "fare_estimate_inr_SYNTH": 20
+  },
+  {
+    "id": "parking_0051",
+    "name": "Ramshej Parking",
+    "zone_type": "outer",
+    "lng": 73.75452217103808,
+    "lat": 20.110924873026168,
+    "capacity_total_SYNTH": 200,
+    "capacity_occupied_SYNTH": null,
+    "fare_estimate_inr_SYNTH": 20
+  },
+  {
+    "id": "parking_0052",
+    "name": "Tomato Market parking V1",
+    "zone_type": "outer",
+    "lng": 73.65916081042374,
+    "lat": 20.067554825499553,
+    "capacity_total_SYNTH": 200,
+    "capacity_occupied_SYNTH": null,
+    "fare_estimate_inr_SYNTH": 20
+  }
+]
