@@ -1,0 +1,85 @@
+# ====================================================================
+# PRAVAH (Anubhav) — Git Ignore Configuration
+# ====================================================================
+
+# Dependencies
+node_modules/
+**/node_modules/
+.pnp
+.pnp.js
+
+# Build Outputs & Bundles
+dist/
+**/dist/
+dist-ssr/
+**/dist-ssr/
+.output/
+**/.output/
+.nitro/
+**/.nitro/
+.vinxi/
+**/.vinxi/
+.tanstack/
+**/.tanstack/
+build/
+**/build/
+out/
+
+# Cloudflare & Wrangler
+.wrangler/
+**/.wrangler/
+.dev.vars
+**/.dev.vars
+
+# Environment & Secret Files (Keep .env.example)
+.env
+.env.*
+**/.env
+**/.env.*
+!.env.example
+!**/.env.example
+*.local
+**/*.local
+
+# Logs & Debugging
+logs/
+**/logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Supabase CLI
+supabase/.temp/
+supabase/.branches/
+
+# IDEs & System Files
+.vscode/*
+!.vscode/extensions.json
+!.vscode/launch.json
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# OS Generated Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Test Coverage
+coverage/
+.nyc_output/
+
+# AI Agent Scratch / Cache
+.gemini/
