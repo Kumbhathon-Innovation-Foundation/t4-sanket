@@ -7,6 +7,19 @@
 **Live UI:** Flutter Web (`http://localhost:3000` or Chrome port) / Flutter Android Client  
 **Backend API:** `http://127.0.0.1:8000` (Swagger UI at `/docs`)
 
+## 🎥 AI Pitch Video & Product Showcase
+
+> 🎬 **Watch the Official ANUBHAV AI Pitch Video (2-3 mins):**  
+> 🔗 **Repository File:** [Watch / Download `pitch_video.mp4`](./pitch_video.mp4)  
+> 🌐 **Direct Stream Link:** [View in Browser (GitHub)](https://github.com/Kumbhathon-Innovation-Foundation/t4-sanket/raw/main/pitch_video.mp4)  
+> *(Optional: If you upload this video to YouTube/Loom/Drive, you can also paste your web link here)*
+
+<div align="center">
+  <a href="./pitch_video.mp4">
+    <img src="https://img.shields.io/badge/▶_WATCH_ANUBHAV_AI_PITCH_VIDEO-FF6F00?style=for-the-badge&logo=youtube&logoColor=white" alt="Watch Pitch Video" height="50">
+  </a>
+</div>
+
 ---
 
 ## 🎬 3-Minute Live Demonstration Flow

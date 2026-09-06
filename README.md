@@ -16,6 +16,11 @@
 
 ---
 
+## 🎥 2-3 Minute AI Pitch Video & Live Showcase
+🎬 **Watch the Official ANUBHAV AI Pitch Video:** [**Watch `pitch_video.mp4`**](./pitch_video.mp4) | [**Open Walkthrough Guide in DEMO.md**](DEMO.md)
+
+---
+
 ## 📌 Executive Summary
 
 During the **Nashik Trimbakeshwar Kumbh Mela 2026**, over 10 million pilgrims arrive daily facing heavy congestion, complex parking regulations, walking restrictions, and shifting crowd densities. 
