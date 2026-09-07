@@ -68,6 +68,11 @@ database/          → Supabase Postgres schema.sql & seed.sql with real Nashik 
 ```
 
 ### 🎯 Key Prototype Capabilities:
+
+<div align="center">
+  <img src="Prototype.png" alt="ANUBHAV Simulated Multi-Service Prototype Canvas" width="100%" />
+</div>
+
 1. **Interactive Multi-Panel Simulation Canvas (`Prototype/src/components/UnifiedShowcase.tsx`)**:
    - Allows judges and evaluators to observe the **Pilgrim App**, **PRAVAH Admin Console**, and **Station Kiosk** concurrently in one unified view.
 2. **Real-World Nashik GIS Integration**:
@@ -167,6 +172,11 @@ During the **Nashik Trimbakeshwar Kumbh Mela 2026**, over 10 million pilgrims ar
   - **"Plan for Ramkund instead"**: Honors explicit user override, generates a route to Ramkund with an active crowd safety advisory, and flags the nearest medical post.
 
 ### 10. STAGE 13 — Complete Teammate UI Merge & Single Navigation System
+
+<div align="center">
+  <img src="Current%20Screenshot%20of%20app.png" alt="ANUBHAV Current Production Application UI" width="100%" />
+</div>
+
 - **Unified Visual Layer & Stitch Design System**:
   - Production-grade screens and widgets styled with consistent typography using Google Fonts (**Epilogue** display/headlines, **Plus Jakarta Sans** body/labels).
   - Cohesive Kumbh color palette: Saffron Primary (`#A33900`), Sacred Blue (`#1D4ED8`), Marigold Gold (`#855300`), and semantic crowd density colors.

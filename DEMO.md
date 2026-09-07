@@ -5,20 +5,52 @@
 **Event:** Kumbhathon SPRINT 2026  
 **System:** ANUBHAV Multimodal Pilgrim Mobility Assistant  
 **Live UI:** Flutter Web (`http://localhost:3000` or Chrome port) / Flutter Android Client  
-**Backend API:** `http://127.0.0.1:8000` (Swagger UI at `/docs`)
+**Backend API:** `http://127.0.0.1:8000` (Swagger UI at `/docs`)  
+**Simulated Prototype:** `http://localhost:5173` (Vite Unified Canvas in `/Prototype`)
+
+---
 
 ## 🎥 AI Pitch Video & Product Showcase
 
 > 🎬 **Watch the Official ANUBHAV AI Pitch Video (2-3 mins):**  
 > 🔗 **Repository File:** [Watch / Download `pitch_video.mp4`](./pitch_video.mp4)  
 > 🌐 **Direct Stream Link:** [View in Browser (GitHub)](https://github.com/Kumbhathon-Innovation-Foundation/t4-sanket/raw/main/pitch_video.mp4)  
-> *(Optional: If you upload this video to YouTube/Loom/Drive, you can also paste your web link here)*
 
 <div align="center">
   <a href="./pitch_video.mp4">
     <img src="https://img.shields.io/badge/▶_WATCH_ANUBHAV_AI_PITCH_VIDEO-FF6F00?style=for-the-badge&logo=youtube&logoColor=white" alt="Watch Pitch Video" height="50">
   </a>
 </div>
+
+---
+
+## 📸 Live Visual Showcase
+
+### 1. Production Application UI (Current Live Client)
+<div align="center">
+  <img src="Current%20Screenshot%20of%20app.png" alt="ANUBHAV Current Production Application UI" width="100%" />
+</div>
+
+*Key Elements Shown Above:*
+- **Left Navigation Rail**: Full navigation between `Home` (Heatmap & Search), `Plan` (Crowd-Aware Itinerary), `Route` (Turn-by-Turn Navigation), `Help` (Emergency & SOS), and `More` (Language & Settings). Includes quick toggle to Phone View and live Supabase/OSRM sync indicator.
+- **Essential Pilgrim Services**: Instant one-tap access to *Ghats*, *Temples*, *Food*, *Water*, and *Toilets* without typing.
+- **Dynamic Snan Status**: Live advisory card showing sacred snan status at Ramkund (*"Low congestion expected for the next 2 hours"*).
+- **Live Crowd Telemetry**: Real-time aggregate count (*1.25M pilgrims active across Nashik*) updated continuously.
+- **Interactive Nashik Live Map**: Real-time map displaying crowd cluster badges (e.g. `250k` at Shalimar/Dwarka corridor) and official Kumbh amenity pins.
+
+---
+
+### 2. Simulated Multi-Service Prototype Canvas (`/Prototype`)
+<div align="center">
+  <img src="Prototype.png" alt="ANUBHAV Simulated Multi-Service Prototype" width="100%" />
+</div>
+
+*Key Elements Shown Above:*
+- **Operator Command Desk (Pravah Control)**: Detects live critical incident on **R17 Route Restriction (VIP Movement)** at 11:58 IST.
+- **AI Recommendation Engine**: Recommends immediate diversion via **Panchavati R21** with 94% confidence to maintain safe corridor load (< 3.0 p/m²).
+- **Real-Time Operator Broadcast**: Operator clicks *"Broadcast Active"*, immediately notifying 1,284 affected pilgrims and 12 on-ground volunteers in under 500ms.
+- **Live Nashik GIS Map**: Color-coded visualization showing the closed R17 corridor (red) and the dynamic recommended R21 detour (blue) across real Nashik coordinates.
+- **Synchronized Pilgrim Mobile View**: Instantly receives an urgent alert siren and updates the route from *Panjarpol Outer Parking* to *Ramkund Sacred Ghat* (18 min, 1.4 km) with one-tap *"Start Journey"*.
 
 ---
 
@@ -29,7 +61,7 @@ This walkthrough demonstrates how ANUBHAV solves real-world pilgrimage mobility 
 ---
 
 ### Scene 1: Multilingual Highway Arrival with Outer-Zone Transit Leg (0:00 - 0:45)
-1. **Open the App**: Launch the ANUBHAV Flutter app on Chrome or Android.
+1. **Open the App**: Launch the ANUBHAV Flutter app on Chrome or Android (or use `START_APP_FOR_JUDGES.bat`).
 2. **Action**: Tap the **Microphone** button or paste this Hindi query:
    > *"धुले से कार से आ रहे हैं, रामकुंड में पवित्र स्नान करना है, पूरी यात्रा की योजना बनाएं।"*
    *(English equivalent: "Coming from Dhule by car, want to perform holy snan at Ramkund, full journey plan please.")*
