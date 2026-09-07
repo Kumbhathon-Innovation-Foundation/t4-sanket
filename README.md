@@ -413,6 +413,60 @@ flutter test
 
 ---
 
+## 📜 Declaration of Open-Source Libraries, Templates & Prior Code
+
+In compliance with the **Kumbhathon SPRINT 2026** competition integrity and attribution guidelines, the following represents the complete declaration of all third-party libraries, design assets, public APIs, datasets, and codebase provenance utilized in **ANUBHAV**:
+
+### 1. Open-Source Libraries & Dependencies
+
+| Layer | Package / Library | License | Primary Purpose in ANUBHAV |
+|---|---|---|---|
+| **AI / Backend** | `fastapi` & `uvicorn` | MIT | High-performance asynchronous REST API framework |
+| **AI / Backend** | `google-genai` | Apache 2.0 | Primary agent intelligence via Gemini 3.6 Flash native tool loop |
+| **AI / Backend** | `groq` | Apache 2.0 | Zero-downtime high-speed fallback provider (Llama-3.3-70b) |
+| **AI / Backend** | `supabase-py` & `postgrest` | MIT | Service-role interface to Supabase PostgreSQL database |
+| **AI / Backend** | `pydantic` | MIT | Strict JSON schema validation for 8 canonical domain tools |
+| **AI / Backend** | `httpx` | BSD-3 | Asynchronous HTTP client for live OSRM routing requests |
+| **Mobile / Web** | `flutter` & `dart` | BSD-3 | Cross-platform client framework (Android, Web, Desktop) |
+| **Mobile / Web** | `flutter_map` & `latlong2` | MIT / BSD | Native map viewport, layered polylines & POI markers |
+| **Mobile / Web** | `go_router` | BSD-3 | Declarative routing with 5 StatefulShellBranches |
+| **Mobile / Web** | `provider` | MIT | Reactive state management (`RouteProvider`, `CrowdProvider`) |
+| **Mobile / Web** | `easy_localization` | MIT | Multi-locale JSON dictionaries (English, Hindi, Marathi) |
+| **Mobile / Web** | `flutter_tts` | MIT | Cross-platform Text-to-Speech audio navigation |
+| **Mobile / Web** | `supabase_flutter` | Apache 2.0 | Realtime WebSocket subscriptions for corridor alerts |
+| **Prototype** | `react` & `vite` | MIT | Lightweight frontend build tooling for multi-persona simulation |
+| **Prototype** | `maplibre-gl` | BSD-3 | WebGL vector map rendering in Pilgrim PWA simulation |
+| **Prototype** | `lucide-react` | ISC | Accessible UI iconography across Admin, Kiosk, and Pilgrim apps |
+| **Prototype** | `concurrently` | MIT | Simultaneous orchestration of all 4 prototype microservices |
+
+### 2. UI Typography, Design System & Templates
+- **Typography**: Google Fonts [Epilogue](https://fonts.google.com/specimen/Epilogue) (Display headlines) and [Plus Jakarta Sans](https://fonts.google.com/specimen/Plus+Jakarta+Sans) (Body/labels), licensed under the SIL Open Font License.
+- **Color Tokens**: Custom Kumbh Mela palette — Saffron Primary (`#A33900`), Sacred Blue (`#1D4ED8`), Marigold Gold (`#855300`), and semantic crowd safety levels (`green`, `yellow`, `red`).
+- **Base Scaffolding**: Initialized using standard open-source developer tooling (`flutter create` and `npm create vite@latest`). All application logic, custom layout cards, simulation toolbars, and telemetry sheets were built from scratch.
+
+### 3. Public APIs & Cloud Services
+- **Google Gemini API**: Multimodal LLM reasoning for conversational pilgrimage itineraries.
+- **Groq Cloud**: Secondary high-throughput LLM API for automated quota failover.
+- **Project OSRM (Open Source Routing Machine)**: Public pedestrian routing endpoints (`router.project-osrm.org`) for true street and footpath turn-by-turn geometries.
+- **CartoDB & OpenStreetMap Tiles**: Cartographic base map raster tiles for map viewports.
+- **Supabase Cloud**: Managed Postgres database hosting the preloaded Kumbh master dataset with live real-time change-data-capture channels.
+
+### 4. Datasets & Spatial Cartography
+- **3,266 Master Kumbh Geo-Records**: Curated and verified spatial records (`pois_temples.json`, `pois_ghats.json`, `facilities.json`, `food_utility.json`, `parking_zones.json`, `advisory_corridors.json`) compiled from OpenStreetMap (OSM) public geographical nodes for the Nashik/Panchavati/Godavari region, Nashik Municipal Corporation public facility directories, and official Kumbh Mela police traffic advisory notifications.
+- **`nashik-all.geojson`**: OpenStreetMap geo-extract formatted for client-side spatial queries.
+
+### 5. Original Intellectual Property & Prior Code Disclosure
+- **Developed Exclusively for Kumbhathon SPRINT 2026**:
+  - The core dual-LLM agentic planner (`agent.py`).
+  - The 8 canonical domain tools and OSRM polyline execution layer (`tool_executor.py`).
+  - Rule 1a group-aware vulnerable group substitution algorithm (`daily_plan_screen.dart`).
+  - Sub-second dynamic in-journey detour patching (`/patch` API and `route_screen.dart`).
+  - Return-to-parking inverted routing algorithm.
+  - Multi-service real-time siren synchronization and VIP override simulator (`Prototype/src/components/UnifiedShowcase.tsx`).
+- **Prior Assets**: No pre-existing commercial codebases, purchased templates, or third-party proprietary systems were used. Standard open-source library starters served strictly as foundational structural boilerplates.
+
+---
+
 ## 🛡️ Judging & Evaluation Notes
 
 1. **Active Online Supabase Instance Preloaded**: All 3,266 Kumbh records are hosted and immediately queried.
