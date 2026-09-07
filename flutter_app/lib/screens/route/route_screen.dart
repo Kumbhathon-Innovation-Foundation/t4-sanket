@@ -150,246 +150,156 @@ class _RouteScreenState extends State<RouteScreen> {
               }
             }
 
-            return Column(
-              children: [
-                // Header Search & Mode Area
-                Container(
-                  padding: const EdgeInsets.all(16),
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(color: Colors.black12, blurRadius: 4, offset: Offset(0, 2)),
-                    ],
-                  ),
-                  child: Column(
-                    children: [
-                      Row(
+            final screenWidth = MediaQuery.of(context).size.width;
+            final isDesktop = screenWidth >= 800;
+
+            if (isDesktop) {
+              return Row(
+                children: [
+                  // Left Planning Sidebar (width: 440)
+                  SizedBox(
+                    width: 440,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border(
+                          right: BorderSide(color: Colors.grey.shade200, width: 1.5),
+                        ),
+                      ),
+                      child: Column(
                         children: [
-                          Column(
-                            children: [
-                              const Icon(Icons.my_location, size: 20, color: AppColors.tertiary),
-                              Container(width: 2, height: 20, color: AppColors.surfaceDim),
-                              const Icon(Icons.location_on, size: 20, color: AppColors.primary),
-                            ],
-                          ),
-                          const SizedBox(width: 16),
+                          _buildSearchHeader(routeProvider),
                           Expanded(
-                            child: Column(
-                              children: [
-                                TextField(
-                                  controller: _originCtrl,
-                                  decoration: InputDecoration(
-                                    hintText: AppStrings.routeStartingPoint.tr(),
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(8),
-                                      borderSide: BorderSide.none,
-                                    ),
-                                    filled: true,
-                                    fillColor: AppColors.surfaceContainerLow,
-                                    contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                            child: SingleChildScrollView(
+                              padding: const EdgeInsets.all(16),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  if (routeProvider.activeProximityPoi != null) ...[
+                                    _buildProximityAlert(routeProvider),
+                                    const SizedBox(height: 12),
+                                  ],
+                                  if (routeProvider.showReturnToParkingBanner) ...[
+                                    _buildReturnToParking(routeProvider),
+                                    const SizedBox(height: 12),
+                                  ],
+                                  WarningBanner(message: AppStrings.routeCongested.tr()),
+                                  const SizedBox(height: 16),
+                                  const Text(
+                                    'Available Corridors & Options',
+                                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: AppColors.onSurface),
                                   ),
-                                ),
-                                const SizedBox(height: 8),
-                                TextField(
-                                  controller: _destCtrl,
-                                  onSubmitted: (_) => _searchRoute(),
-                                  decoration: InputDecoration(
-                                    hintText: AppStrings.routeDestination.tr(),
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(8),
-                                      borderSide: BorderSide.none,
-                                    ),
-                                    filled: true,
-                                    fillColor: AppColors.surfaceContainerLow,
-                                    contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                                    suffixIcon: IconButton(
-                                      icon: const Icon(Icons.search, color: AppColors.primary),
-                                      onPressed: _searchRoute,
+                                  const SizedBox(height: 10),
+                                  ...routeProvider.routes.map(
+                                    (r) => Padding(
+                                      padding: const EdgeInsets.only(bottom: 8.0),
+                                      child: RouteCard(
+                                        route: r,
+                                        isSelected: r.id == routeProvider.selectedRoute?.id,
+                                        onTap: () => routeProvider.selectRoute(r),
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ],
+                                  const SizedBox(height: 16),
+                                  SizedBox(
+                                    width: double.infinity,
+                                    child: ElevatedButton.icon(
+                                      onPressed: () {
+                                        if (routeProvider.isSimulating) {
+                                          routeProvider.pauseSimulation();
+                                        } else {
+                                          routeProvider.startSimulation();
+                                        }
+                                      },
+                                      icon: Icon(
+                                        routeProvider.isSimulating ? Icons.pause : Icons.navigation,
+                                        color: Colors.white,
+                                      ),
+                                      label: Text(
+                                        routeProvider.isSimulating
+                                            ? 'Pause Navigation'
+                                            : AppStrings.routeStartNav.tr(),
+                                        style: AppTextStyles.labelLg.copyWith(color: Colors.white),
+                                      ),
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: AppColors.primary,
+                                        padding: const EdgeInsets.symmetric(vertical: 16),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(12),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 10),
+                                  Center(
+                                    child: Text(
+                                      AppStrings.routeOfflineVoice.tr(),
+                                      style: AppTextStyles.bodySm.copyWith(
+                                        color: AppColors.onSurfaceVariant,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ],
                       ),
-                      const SizedBox(height: 16),
-
-                      // Travel Modes
-                      Row(
-                        children: [
-                          _ModeChip(
-                            icon: Icons.directions_walk,
-                            label: AppStrings.routeWalk.tr(),
-                            isSelected: routeProvider.selectedMode == TravelMode.walk,
-                            onTap: () => routeProvider.setMode(TravelMode.walk),
-                          ),
-                          const SizedBox(width: 8),
-                          _ModeChip(
-                            icon: Icons.directions_bus,
-                            label: AppStrings.routeShuttle.tr(),
-                            isSelected: routeProvider.selectedMode == TravelMode.shuttle,
-                            onTap: () => routeProvider.setMode(TravelMode.shuttle),
-                          ),
-                          const SizedBox(width: 8),
-                          _ModeChip(
-                            icon: Icons.electric_rickshaw,
-                            label: AppStrings.routeRickshaw.tr(),
-                            isSelected: routeProvider.selectedMode == TravelMode.rickshaw,
-                            onTap: () => routeProvider.setMode(TravelMode.rickshaw),
-                          ),
-                        ],
-                      ),
-                    ],
+                    ),
                   ),
-                ),
 
-                // Map and Overlay
+                  // Right Map Canvas
+                  Expanded(
+                    child: Stack(
+                      children: [
+                        _buildMapStack(userPos, polylines, poiMarkers, routeProvider),
+                        if (routeProvider.isSimulating)
+                          Positioned(
+                            bottom: 24,
+                            left: 24,
+                            right: 24,
+                            child: Center(
+                              child: ConstrainedBox(
+                                constraints: const BoxConstraints(maxWidth: 580),
+                                child: _buildSimulationToolbar(routeProvider),
+                              ),
+                            ),
+                          ),
+                      ],
+                    ),
+                  ),
+                ],
+              );
+            }
+
+            return Column(
+              children: [
+                _buildSearchHeader(routeProvider),
                 Expanded(
                   child: Stack(
                     children: [
-                      FlutterMap(
-                        mapController: _mapController,
-                        options: MapOptions(
-                          initialCenter: userPos,
-                          initialZoom: 15.0,
-                        ),
-                        children: [
-                          TileLayer(urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png'),
-                          PolylineLayer(polylines: polylines),
-                          MarkerLayer(markers: poiMarkers),
-                          MarkerLayer(
-                            markers: [
-                              Marker(
-                                point: userPos,
-                                width: 36,
-                                height: 36,
-                                child: KumbhUserLocationMarker(
-                                  heading: routeProvider.simulatedHeading,
-                                  isSimulated: routeProvider.isSimulating,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-
-                      // Proximity Alert Banner (Stage 8)
+                      _buildMapStack(userPos, polylines, poiMarkers, routeProvider),
                       if (routeProvider.activeProximityPoi != null)
                         Positioned(
                           top: 12,
                           left: 16,
                           right: 16,
-                          child: Material(
-                            elevation: 6,
-                            borderRadius: BorderRadius.circular(12),
-                            color: AppColors.secondaryFixed,
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-                              child: Row(
-                                children: [
-                                  const Icon(Icons.near_me, color: AppColors.primary),
-                                  const SizedBox(width: 10),
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Text(
-                                          'Nearby: ${routeProvider.activeProximityPoi!.name}',
-                                          style: AppTextStyles.labelLg.copyWith(color: AppColors.primary),
-                                        ),
-                                        Text(
-                                          'On your ${routeProvider.activeProximityPoi!.side} • ${routeProvider.activeProximityPoi!.triggerDistanceM}m away',
-                                          style: AppTextStyles.bodySm,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  IconButton(
-                                    icon: const Icon(Icons.close, size: 20),
-                                    onPressed: () => routeProvider.dismissProximityAlert(),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
+                          child: _buildProximityAlert(routeProvider),
                         ),
-
-                      // Simulation Toolbar (Stage 6)
                       if (routeProvider.isSimulating)
                         Positioned(
                           top: routeProvider.activeProximityPoi != null ? 80 : 12,
                           left: 16,
                           right: 16,
-                          child: SimulationToolbar(
-                            isPlaying: routeProvider.isSimulating,
-                            speedMultiplier: routeProvider.simulationSpeedMultiplier,
-                            progressFraction: routeProvider.allRouteCoordinates.isEmpty
-                                ? 0.0
-                                : (routeProvider.simulatedStep / (routeProvider.allRouteCoordinates.length - 1)).clamp(0.0, 1.0),
-                            currentStep: routeProvider.simulatedStep.toInt() + 1,
-                            totalSteps: routeProvider.allRouteCoordinates.length,
-                            onTogglePlay: () {
-                              if (routeProvider.isSimulating) {
-                                routeProvider.pauseSimulation();
-                              } else {
-                                routeProvider.startSimulation();
-                              }
-                            },
-                            onReset: () => routeProvider.resetSimulation(),
-                            onClose: () => routeProvider.pauseSimulation(),
-                            onSpeedChanged: (s) => routeProvider.setSimulationSpeed(s),
-                          ),
+                          child: _buildSimulationToolbar(routeProvider),
                         ),
-
-                      // Return-to-Parking Banner (Stage 9)
                       if (routeProvider.showReturnToParkingBanner)
                         Positioned(
                           top: 12,
                           left: 16,
                           right: 16,
-                          child: Material(
-                            elevation: 8,
-                            borderRadius: BorderRadius.circular(12),
-                            color: AppColors.primaryFixed,
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-                              child: Row(
-                                children: [
-                                  const Icon(Icons.local_parking, color: AppColors.primary, size: 28),
-                                  const SizedBox(width: 10),
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Text(
-                                          'Destination Reached 🎉',
-                                          style: AppTextStyles.labelLg.copyWith(color: AppColors.primary),
-                                        ),
-                                        const Text('Ready to return to your parking spot?'),
-                                      ],
-                                    ),
-                                  ),
-                                  ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: AppColors.primary,
-                                      foregroundColor: Colors.white,
-                                    ),
-                                    onPressed: () {
-                                      _destCtrl.text = 'Panchavati Parking';
-                                      _searchRoute();
-                                    },
-                                    child: const Text('Way Back'),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
+                          child: _buildReturnToParking(routeProvider),
                         ),
-
-                      // Route Cards Bottom Sheet Overlay
                       Align(
                         alignment: Alignment.bottomCenter,
                         child: Container(
@@ -406,8 +316,6 @@ class _RouteScreenState extends State<RouteScreen> {
                             children: [
                               WarningBanner(message: AppStrings.routeCongested.tr()),
                               const SizedBox(height: 12),
-
-                              // Render Route Cards
                               ...routeProvider.routes.map(
                                 (r) => RouteCard(
                                   route: r,
@@ -415,10 +323,7 @@ class _RouteScreenState extends State<RouteScreen> {
                                   onTap: () => routeProvider.selectRoute(r),
                                 ),
                               ),
-
                               const SizedBox(height: 8),
-
-                              // Start Nav CTA
                               SizedBox(
                                 width: double.infinity,
                                 child: ElevatedButton.icon(
@@ -465,6 +370,225 @@ class _RouteScreenState extends State<RouteScreen> {
               ],
             );
           },
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSearchHeader(RouteProvider routeProvider) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(color: Colors.black12, blurRadius: 4, offset: Offset(0, 2)),
+        ],
+      ),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Column(
+                children: [
+                  const Icon(Icons.my_location, size: 20, color: AppColors.tertiary),
+                  Container(width: 2, height: 20, color: AppColors.surfaceDim),
+                  const Icon(Icons.location_on, size: 20, color: AppColors.primary),
+                ],
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  children: [
+                    TextField(
+                      controller: _originCtrl,
+                      decoration: InputDecoration(
+                        hintText: AppStrings.routeStartingPoint.tr(),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: BorderSide.none,
+                        ),
+                        filled: true,
+                        fillColor: AppColors.surfaceContainerLow,
+                        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    TextField(
+                      controller: _destCtrl,
+                      onSubmitted: (_) => _searchRoute(),
+                      decoration: InputDecoration(
+                        hintText: AppStrings.routeDestination.tr(),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: BorderSide.none,
+                        ),
+                        filled: true,
+                        fillColor: AppColors.surfaceContainerLow,
+                        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                        suffixIcon: IconButton(
+                          icon: const Icon(Icons.search, color: AppColors.primary),
+                          onPressed: _searchRoute,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          Row(
+            children: [
+              _ModeChip(
+                icon: Icons.directions_walk,
+                label: AppStrings.routeWalk.tr(),
+                isSelected: routeProvider.selectedMode == TravelMode.walk,
+                onTap: () => routeProvider.setMode(TravelMode.walk),
+              ),
+              const SizedBox(width: 8),
+              _ModeChip(
+                icon: Icons.directions_bus,
+                label: AppStrings.routeShuttle.tr(),
+                isSelected: routeProvider.selectedMode == TravelMode.shuttle,
+                onTap: () => routeProvider.setMode(TravelMode.shuttle),
+              ),
+              const SizedBox(width: 8),
+              _ModeChip(
+                icon: Icons.electric_rickshaw,
+                label: AppStrings.routeRickshaw.tr(),
+                isSelected: routeProvider.selectedMode == TravelMode.rickshaw,
+                onTap: () => routeProvider.setMode(TravelMode.rickshaw),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildMapStack(LatLng userPos, List<Polyline> polylines, List<Marker> poiMarkers, RouteProvider routeProvider) {
+    return FlutterMap(
+      mapController: _mapController,
+      options: MapOptions(
+        initialCenter: userPos,
+        initialZoom: 15.0,
+      ),
+      children: [
+        TileLayer(urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png'),
+        PolylineLayer(polylines: polylines),
+        MarkerLayer(markers: poiMarkers),
+        MarkerLayer(
+          markers: [
+            Marker(
+              point: userPos,
+              width: 36,
+              height: 36,
+              child: KumbhUserLocationMarker(
+                heading: routeProvider.simulatedHeading,
+                isSimulated: routeProvider.isSimulating,
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildProximityAlert(RouteProvider routeProvider) {
+    return Material(
+      elevation: 6,
+      borderRadius: BorderRadius.circular(12),
+      color: AppColors.secondaryFixed,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+        child: Row(
+          children: [
+            const Icon(Icons.near_me, color: AppColors.primary),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    'Nearby: ${routeProvider.activeProximityPoi!.name}',
+                    style: AppTextStyles.labelLg.copyWith(color: AppColors.primary),
+                  ),
+                  Text(
+                    'On your ${routeProvider.activeProximityPoi!.side} • ${routeProvider.activeProximityPoi!.triggerDistanceM}m away',
+                    style: AppTextStyles.bodySm,
+                  ),
+                ],
+              ),
+            ),
+            IconButton(
+              icon: const Icon(Icons.close, size: 20),
+              onPressed: () => routeProvider.dismissProximityAlert(),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSimulationToolbar(RouteProvider routeProvider) {
+    return SimulationToolbar(
+      isPlaying: routeProvider.isSimulating,
+      speedMultiplier: routeProvider.simulationSpeedMultiplier,
+      progressFraction: routeProvider.allRouteCoordinates.isEmpty
+          ? 0.0
+          : (routeProvider.simulatedStep / (routeProvider.allRouteCoordinates.length - 1)).clamp(0.0, 1.0),
+      currentStep: routeProvider.simulatedStep.toInt() + 1,
+      totalSteps: routeProvider.allRouteCoordinates.length,
+      onTogglePlay: () {
+        if (routeProvider.isSimulating) {
+          routeProvider.pauseSimulation();
+        } else {
+          routeProvider.startSimulation();
+        }
+      },
+      onReset: () => routeProvider.resetSimulation(),
+      onClose: () => routeProvider.pauseSimulation(),
+      onSpeedChanged: (s) => routeProvider.setSimulationSpeed(s),
+    );
+  }
+
+  Widget _buildReturnToParking(RouteProvider routeProvider) {
+    return Material(
+      elevation: 8,
+      borderRadius: BorderRadius.circular(12),
+      color: AppColors.primaryFixed,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+        child: Row(
+          children: [
+            const Icon(Icons.local_parking, color: AppColors.primary, size: 28),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    'Destination Reached 🎉',
+                    style: AppTextStyles.labelLg.copyWith(color: AppColors.primary),
+                  ),
+                  const Text('Ready to return to your parking spot?'),
+                ],
+              ),
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.primary,
+                foregroundColor: Colors.white,
+              ),
+              onPressed: () {
+                _destCtrl.text = 'Panchavati Parking';
+                _searchRoute();
+              },
+              child: const Text('Way Back'),
+            ),
+          ],
         ),
       ),
     );

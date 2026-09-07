@@ -1,9 +1,23 @@
-# ANUBHAV — Intelligent Pilgrim Mobility & Planning Platform
+<div align="center">
+  <img src="logo.jpeg" alt="ANUBHAV Logo" width="180" style="border-radius: 28px;" />
+  <h1>ANUBHAV (अनुभव)</h1>
+  <h3>Intelligent Pilgrim Experience & Mobility Planning Platform</h3>
+  <p><i>"Har Yatra Ek Anubhav — Your AI Companion for a Safe, Seamless & Spiritual Kumbh Mela Experience"</i></p>
 
-**Team:** Sanket  
-**Tower:** 4 - Pilgrim Experience  
-**Event:** Kumbhathon SPRINT 2026  
-**System:** AI-Agent Pilgrimage Planning & Execution System grounded in Real Nashik Kumbh Mobility Network
+  <p>
+    <a href="https://flutter.dev"><img src="https://img.shields.io/badge/Flutter-3.22+-02569B?style=for-the-badge&logo=flutter&logoColor=white" alt="Flutter" /></a>
+    <a href="https://fastapi.tiangolo.com"><img src="https://img.shields.io/badge/FastAPI-0.110+-009688?style=for-the-badge&logo=fastapi&logoColor=white" alt="FastAPI" /></a>
+    <a href="https://supabase.com"><img src="https://img.shields.io/badge/Supabase-Realtime_Postgres-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white" alt="Supabase" /></a>
+    <a href="https://ai.google.dev"><img src="https://img.shields.io/badge/Dual_LLM-Gemini_3.6_Flash_%2B_Groq-8E75B2?style=for-the-badge&logo=google&logoColor=white" alt="Gemini" /></a>
+    <a href="http://project-osrm.org"><img src="https://img.shields.io/badge/Routing-OSRM_Live_Footpaths-black?style=for-the-badge&logo=openstreetmap&logoColor=white" alt="OSRM" /></a>
+  </p>
+
+  <p>
+    <b>Event:</b> Kumbhathon SPRINT 2026 &nbsp;|&nbsp; 
+    <b>Tower:</b> 4 — Pilgrim Experience &nbsp;|&nbsp; 
+    <b>Team:</b> Sanket
+  </p>
+</div>
 
 ---
 
@@ -16,8 +30,68 @@
 
 ---
 
+## 🌟 Executive Overview & Solution Architecture
+
+<div align="center">
+  <img src="one%20slider.jpeg" alt="ANUBHAV Platform Architecture & Solution Overview" width="100%" />
+</div>
+
+> *"PRAVAH already knows what's happening. ANUBHAV ensures every pilgrim knows what to do."*
+
+### 📌 Core Tenets from the Executive Overview:
+- 🚨 **The Problem & The Critical Gap**: Over 10 million daily pilgrims face intense crowd confusion at ghats, sudden road closures due to VIP movements, parking uncertainty, and language barriers. Operational intelligence exists in the Command Center (PRAVAH), but fails to reach pilgrims in a personalized, actionable form.
+- 💡 **Our Solution — ANUBHAV**: An AI-powered, multilingual pilgrim companion converting live command-center telemetry into proactive, personalized step-by-step guidance.
+- ⚙️ **How It Works**: Crowd sensors + police alerts + parking status + weather + road closures $\rightarrow$ **ANUBHAV AI Decision Engine** $\rightarrow$ instant answers to *"What should I do next?"* (Safe routes, best snan time, nearby facilities, spiritual recommendations).
+- 📈 **System Impact**: 
+  - **For Pilgrims**: Safer journeys, reduced waiting times, lower stress, accessible native languages, and an elevated spiritual experience.
+  - **For Authorities**: Better crowd distribution, faster emergency response, reduced bottleneck congestion, and efficient resource allocation.
+- 🌐 **Scalable Beyond Kumbh**: A reusable smart-event mobility architecture designed for India's largest mega-gatherings (Maha Kumbh, Pandharpur Wari, Tirupati, Vaishno Devi, Jagannath Rath Yatra, Ganesh Visarjan, Amarnath Yatra, and Smart Cities).
+
+---
+
 ## 🎥 2-3 Minute AI Pitch Video & Live Showcase
 🎬 **Watch the Official ANUBHAV AI Pitch Video:** [**Watch `pitch_video.mp4`**](./pitch_video.mp4) | [**Open Walkthrough Guide in DEMO.md**](DEMO.md)
+
+---
+
+## 🧪 Simulated Multi-Service Prototype (`/Prototype`)
+
+Alongside the main Flutter production application and FastAPI backend, this repository includes the **Simulated Multi-Service Prototype** (`/Prototype`). It provides a lightweight, self-contained simulation of the entire Kumbh digital ecosystem running in real-time across four distinct personas:
+
+```
+apps/pilgrim-app   → Deployed independently (PWA for pilgrims, calling API & MapLibre)
+apps/admin         → Deployed independently (PRAVAH police dispatch console with login gate)
+apps/kiosk         → Deployed independently (Fullscreen touch & voice terminal for stations & ghats)
+services/api       → Deployed independently (Node/Express API with auth & 7 agent tools)
+packages/shared    → Shared design tokens, TierBadge, Supabase Realtime helper, i18n dictionaries
+database/          → Supabase Postgres schema.sql & seed.sql with real Nashik coordinates
+```
+
+### 🎯 Key Prototype Capabilities:
+1. **Interactive Multi-Panel Simulation Canvas (`Prototype/src/components/UnifiedShowcase.tsx`)**:
+   - Allows judges and evaluators to observe the **Pilgrim App**, **PRAVAH Admin Console**, and **Station Kiosk** concurrently in one unified view.
+2. **Real-World Nashik GIS Integration**:
+   - Packaged with `nashik-all.geojson` (7.2 MB of real road geometries, ghat boundaries, and pilgrim amenities).
+3. **Instant Detour & Siren Smoke Test**:
+   - Triggering a **Force Close R17 (VIP Procession Emergency Override)** in the Admin Console immediately causes both the Pilgrim App and the Station Kiosk to sound an alert siren and reroute in real time via Supabase Realtime without a browser refresh.
+
+### 🚀 How to Run the Prototype:
+
+```bash
+cd Prototype
+npm install
+npm run dev
+```
+*Opens the unified simulation canvas at `http://localhost:5173`.*
+
+To run all individual services concurrently:
+```bash
+npm run dev:multi
+```
+- **API Backend**: `http://localhost:4000`
+- **Pilgrim App**: `http://localhost:5173`
+- **Admin Console**: `http://localhost:5174` (Login: `admin` / `pravah2026`)
+- **Station Kiosk**: `http://localhost:5175`
 
 ---
 
@@ -94,8 +168,7 @@ During the **Nashik Trimbakeshwar Kumbh Mela 2026**, over 10 million pilgrims ar
 
 ### 10. STAGE 13 — Complete Teammate UI Merge & Single Navigation System
 - **Unified Visual Layer & Stitch Design System**:
-  - Replaced the initial scaffolding with the teammate's production-grade screens and widgets from `ANUBHAV.zip`.
-  - Consistent typography using Google Fonts (**Epilogue** display/headlines, **Plus Jakarta Sans** body/labels).
+  - Production-grade screens and widgets styled with consistent typography using Google Fonts (**Epilogue** display/headlines, **Plus Jakarta Sans** body/labels).
   - Cohesive Kumbh color palette: Saffron Primary (`#A33900`), Sacred Blue (`#1D4ED8`), Marigold Gold (`#855300`), and semantic crowd density colors.
 - **GoRouter Navigation with 5 First-Class Branches**:
   - `/home`: Live crowd heatmap, search bar, one-tap shortcut icons, and live aggregate telemetry cards.
@@ -103,10 +176,8 @@ During the **Nashik Trimbakeshwar Kumbh Mela 2026**, over 10 million pilgrims ar
   - `/route`: Segmented crowd-colored polylines (Stage 10), crowd-tinted POI markers, simulation toolbar (Stage 6), proximity alerts (Stage 8), and return-to-parking CTA (Stage 9).
   - `/help`: Emergency SOS dispatch, Lost & Found reports, Medical Camps, Volunteer Desks, Admin Directory, and Safety Guidelines.
   - `/more`: Multilingual language selector, app preferences, and guide.
-- **State Management & Multi-Language Localization**:
-  - Coordinated through `MultiProvider` (`RouteProvider`, `CrowdProvider`, `LocationProvider`, `LocaleProvider`).
-  - Full translations for **English (`en.json`)**, **Hindi (`hi.json`)**, and **Marathi (`mr.json`)**.
-  - All backend endpoints (`/plan`, `/patch`, `/nearby`, `/ghat-forecast`, `/crowd-levels`) and Supabase Realtime remain 100% active and connected.
+- **Desktop & Web Mode Support**:
+  - Toggle between responsive wide desktop mode and phone frame mockup mode for presentations.
 
 ---
 
@@ -152,6 +223,17 @@ During the **Nashik Trimbakeshwar Kumbh Mela 2026**, over 10 million pilgrims ar
 
 ```
 .
+├── Prototype/                   # Simulated Multi-Service Prototype (Vite Monorepo)
+│   ├── apps/
+│   │   ├── admin/               # PRAVAH Police Dispatch Console (React + Vite)
+│   │   ├── kiosk/               # Station & Ghat High-Contrast Kiosk Terminal (React + Vite)
+│   │   └── pilgrim-app/         # Web PWA with MapLibre GL and voice rerouting (React + Vite)
+│   ├── database/                # Supabase schema.sql, seed.sql & verify_schema.sql
+│   ├── packages/shared/         # Design tokens, TierBadge, i18n dictionaries, Supabase client
+│   ├── services/api/            # Node/Express API with auth & 7 agent tools
+│   ├── src/                     # Unified simulation showcase canvas (all apps in one)
+│   ├── nashik-all.geojson       # Real Nashik GIS coordinates & polyline geometries
+│   └── package.json             # Root monorepo workspace configuration
 ├── backend/
 │   ├── agent.py                 # Core AI Pilgrim Agent with Gemini & Groq fallback
 │   ├── llm_client.py            # Dual-provider LLM client (Gemini 3.6 + Groq)
@@ -175,7 +257,7 @@ During the **Nashik Trimbakeshwar Kumbh Mela 2026**, over 10 million pilgrims ar
 │   └── pois_temples.json        # 1,074 heritage temples & shrines
 ├── docs/
 │   └── anubhav-ai-agent-architecture.md  # Comprehensive system design specification
-├── flutter_app/                 # Flutter Cross-Platform Client
+├── flutter_app/                 # Flutter Cross-Platform Client (Android / Web / Desktop)
 │   ├── assets/translations/     # Multi-language files (en.json, hi.json, mr.json)
 │   ├── lib/
 │   │   ├── app.dart             # GoRouter with 5 StatefulShellBranches
@@ -185,7 +267,7 @@ During the **Nashik Trimbakeshwar Kumbh Mela 2026**, over 10 million pilgrims ar
 │   │   ├── models/              # Itinerary, POI, Place, CrowdData, RouteData models
 │   │   ├── providers/           # RouteProvider, CrowdProvider, LocationProvider, LocaleProvider
 │   │   ├── screens/
-│   │   │   ├── shell_screen.dart       # 5-branch Material3 NavigationBar shell
+│   │   │   ├── shell_screen.dart       # 5-branch Material3 NavigationBar shell & desktop presenter
 │   │   │   ├── home/home_screen.dart   # Stitch Live Crowd Heatmap & One-Tap Utilities
 │   │   │   ├── daily_plan_screen.dart  # Travel Planner with Ghat Forecast & Rule 1a Group Intake
 │   │   │   ├── route/route_screen.dart # Segmented crowd routes, simulation & proximity alerts
@@ -203,52 +285,50 @@ During the **Nashik Trimbakeshwar Kumbh Mela 2026**, over 10 million pilgrims ar
 ├── .env.example                 # Sanitized environment template
 ├── .gitignore                   # Comprehensive root gitignore
 ├── DEMO.md                      # Live demonstration guide, steps & testing scenarios
-├── README.md                    # This documentation file
-└── SUBMISSION.md                # SPRINT judging checklist
+├── README.md                    # Main documentation file
+├── START_APP_FOR_JUDGES.bat     # One-click Windows starter for judging
+├── SUBMISSION.md                # SPRINT judging checklist
+├── logo.jpeg                    # Official ANUBHAV Platform Emblem
+└── one slider.jpeg              # Official Executive Pitch Slide & Solution Architecture
 ```
 
 ---
 
 ## ⚡ Quick Start: How to Run
 
-### Prerequisites
-- **Python 3.10+**
-- **Flutter SDK 3.22+** (with Chrome or Android device)
-- Git
+### Option 1: One-Click Runner for Judges (Windows)
+Double-click `START_APP_FOR_JUDGES.bat` in the root folder! It automatically:
+1. Spawns the FastAPI backend on `http://127.0.0.1:8000`.
+2. Serves the precompiled Flutter Web application on `http://localhost:3000`.
+3. Launches Google Chrome directly.
 
 ---
 
-### Step 1: Clone Repository & Setup Environment
+### Option 2: Standard Flutter & FastAPI Setup
 
+#### Prerequisites:
+- **Python 3.10+**
+- **Flutter SDK 3.22+**
+- Git
+
+#### Step 1: Clone Repository & Setup Environment
 ```bash
 git clone https://github.com/Kumbhathon-Innovation-Foundation/t4-sanket.git
 cd t4-sanket
-```
-
-Copy the environment template:
-```bash
 cp .env.example .env
 cp .env.example backend/.env
 ```
-*(Pre-configured with active Supabase test keys for immediate judging).*
 
----
-
-### Step 2: Launch the FastAPI Backend
-
+#### Step 2: Launch the FastAPI Backend
 ```bash
 cd backend
 pip install -r requirements.txt
 uvicorn main:app --host 127.0.0.1 --port 8000 --reload
 ```
+- API Server: `http://127.0.0.1:8000`
+- Swagger UI: `http://127.0.0.1:8000/docs`
 
-- API Server runs at: `http://127.0.0.1:8000`
-- Interactive Swagger UI: `http://127.0.0.1:8000/docs`
-
----
-
-### Step 3: Launch the Flutter Application
-
+#### Step 3: Launch the Flutter Application
 In a separate terminal:
 ```bash
 cd flutter_app
@@ -256,6 +336,16 @@ flutter pub get
 flutter run -d chrome
 ```
 *(Or run on Android: `flutter run -d <android-device-id>` or Windows Desktop: `flutter run -d windows`)*.
+
+---
+
+### Option 3: Run the Simulated Prototype (`Prototype/`)
+```bash
+cd Prototype
+npm install
+npm run dev
+```
+*Access the unified simulation canvas at `http://localhost:5173`.*
 
 ---
 
@@ -289,7 +379,7 @@ python backend/test_stage9.py
 cd flutter_app
 flutter analyze
 ```
-*Expected: 0 issues found (No issues found!).*
+*Expected: No issues found! (0 errors, 0 warnings).*
 
 ### 5. Flutter Unit & Widget Test Suite
 ```bash

@@ -1,0 +1,48 @@
+:root {
+  /* Part A - Grounded Kumbh Palette */
+  --indigo-dusk: #1B2A4A;
+  --marigold: #E8871E;
+  --river-teal: #2F7A6B;
+  --river-teal-border: rgba(47, 122, 107, 0.20);
+  --river-teal-subtle: rgba(47, 122, 107, 0.08);
+  --sindoor: #C1401F;
+  --sindoor-subtle: rgba(193, 64, 31, 0.10);
+  --parchment: #F6F1E4;
+  --parchment-deep: #ECE5D5;
+  --ink: #201C14;
+  --ink-muted: #5C5549;
+  --ink-subtle: #877E71;
+
+  /* Typography: Single family across Latin, Hindi, and Marathi */
+  --font-family: 'IBM Plex Sans Devanagari', 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --weight-regular: 400;
+  --weight-medium: 500;
+
+  /* Unified Card Geometry */
+  --radius-card: 12px;
+  --radius-pill: 9999px;
+  --border-hairline: 1px solid var(--river-teal-border);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--indigo-dusk);
+  color: var(--parchment);
+  font-family: var(--font-family);
+  font-weight: var(--weight-regular);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+  line-height: 1.5;
+}
+
+/* Text selections */
+::selection {
+  background: var(--marigold);
+  color: var(--indigo-dusk);
+}

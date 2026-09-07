@@ -63,7 +63,22 @@ dmypy.json
 .ruff_cache/
 
 # ------------------------------------------------------------------------------
-# 3. Flutter & Dart Build Artifacts
+# 3. Node, Monorepo & Prototype Web Artifacts
+# ------------------------------------------------------------------------------
+node_modules/
+**/node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.turbo/
+**/.turbo/
+.vite/
+**/.vite/
+**/dist/
+
+# ------------------------------------------------------------------------------
+# 4. Flutter & Dart Build Artifacts
 # ------------------------------------------------------------------------------
 .dart_tool/
 .flutter-plugins-dependencies

@@ -204,11 +204,14 @@ class _DailyPlanScreenState extends State<DailyPlanScreen> {
 
           // Main Body
           SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+            child: Center(
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 960),
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
                   // SECTION 1: Today's Overview & Ghat Congestion Forecast
                   _buildSectionHeader(
                     title: "Today's Overview",
@@ -272,10 +275,12 @@ class _DailyPlanScreenState extends State<DailyPlanScreen> {
               ),
             ),
           ),
-        ],
+        ),
       ),
-    );
-  }
+    ],
+  ),
+);
+}
 
   Widget _buildSectionHeader({
     required String title,

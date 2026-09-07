@@ -14,6 +14,133 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isDesktop = screenWidth >= 800;
+
+    if (isDesktop) {
+      return Scaffold(
+        backgroundColor: AppColors.surface,
+        body: Row(
+          children: [
+            // Left Control Panel (width: 440)
+            SizedBox(
+              width: 440,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: AppColors.surface,
+                  border: Border(
+                    right: BorderSide(color: Colors.grey.shade200, width: 1.5),
+                  ),
+                ),
+                child: SafeArea(
+                  child: SingleChildScrollView(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Header
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  AppStrings.appName.tr(),
+                                  style: AppTextStyles.headlineLg.copyWith(color: AppColors.primary),
+                                ),
+                                Text(
+                                  AppStrings.homeWelcome.tr(),
+                                  style: AppTextStyles.bodySm.copyWith(color: AppColors.onSurfaceVariant),
+                                ),
+                              ],
+                            ),
+                            Container(
+                              decoration: const BoxDecoration(
+                                color: Colors.white,
+                                shape: BoxShape.circle,
+                              ),
+                              child: IconButton(
+                                icon: const Icon(Icons.notifications_outlined, color: AppColors.onSurface),
+                                onPressed: () {},
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 16),
+
+                        // Search Bar
+                        const SearchBarWidget(),
+                        const SizedBox(height: 20),
+
+                        // Shortcut Icons Section
+                        const Text(
+                          'Essential Pilgrim Services',
+                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13, color: AppColors.onSurfaceVariant),
+                        ),
+                        const SizedBox(height: 10),
+                        const ShortcutIcons(),
+                        const SizedBox(height: 20),
+
+                        // Divine Journey Banner
+                        BannerCard(
+                          title: AppStrings.homeBannerTitle.tr(),
+                          subtitle: AppStrings.homeBannerSubtitle.tr(),
+                          buttonText: AppStrings.homeBannerLabel.tr(),
+                          onTap: () {},
+                        ),
+                        const SizedBox(height: 20),
+
+                        // Crowd Telemetry Card
+                        const Text(
+                          'Live Kumbh Crowd Telemetry',
+                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13, color: AppColors.onSurfaceVariant),
+                        ),
+                        const SizedBox(height: 10),
+                        const CrowdSummaryCard(),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+
+            // Right Map Area
+            Expanded(
+              child: Stack(
+                children: [
+                  const Positioned.fill(
+                    child: CrowdMapWidget(),
+                  ),
+                  Positioned(
+                    top: 20,
+                    right: 20,
+                    child: Column(
+                      children: [
+                        FloatingActionButton.small(
+                          heroTag: 'layers',
+                          backgroundColor: Colors.white,
+                          child: const Icon(Icons.layers_outlined, color: AppColors.onSurface),
+                          onPressed: () {},
+                        ),
+                        const SizedBox(height: 8),
+                        FloatingActionButton.small(
+                          heroTag: 'location',
+                          backgroundColor: Colors.white,
+                          child: const Icon(Icons.my_location, color: AppColors.tertiary),
+                          onPressed: () {},
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
     return Scaffold(
       backgroundColor: AppColors.surface,
       body: Stack(
