@@ -146,13 +146,13 @@ During the **Nashik Trimbakeshwar Kumbh Mela 2026**, over 10 million pilgrims ar
 - Upon reaching the sacred dip at Ramkund, ANUBHAV announces darshan completion and activates a prominent **"Way Back to Parking"** flow.
 - Generates the return journey (Ramkund $\rightarrow$ Panchavati Drop Point $\rightarrow$ return feeder shuttle to outer parking $\rightarrow$ parked vehicle).
 
-### 7. STAGE 10 — Colour-Coded Crowd Navigation
+### 7. Colour-Coded Crowd Navigation
 - Every `walk_segment` and POI marker carries a dynamic `crowd_color` (`green` = low, `yellow` = medium, `red` = high) computed in real-time from `get_crowd_levels`.
 - The Live Map renders each walking stretch as an independent, segmented polyline in its specific crowd color rather than a single uniform route color.
 - Ghat and POI pins are tinted with matching crowd halo borders and glowing indicator dots.
 - Background polling refreshes segment and marker crowd colors every 30 seconds as crowd density changes.
 
-### 8. STAGE 11 — One-Tap Utility Search (Zero Typing)
+### 8. One-Tap Utility Search (Zero Typing)
 - 4 prominent one-tap utility buttons on the Home screen for urgent pilgrim needs:
   - 🚻 **Toilet** (Sanitized municipal facilities)
   - 🏥 **Medical** (Emergency first aid & triage)
@@ -161,7 +161,7 @@ During the **Nashik Trimbakeshwar Kumbh Mela 2026**, over 10 million pilgrims ar
 - Tapping any button immediately pipes `get_nearby` through `rank_by_experience` without typing a single word into the search box.
 - Opens the Stage 8 structured detail sheet for the **#1 Top Pick** (with live sensor status, wait time, crowd trend, why recommended, and amenities), while displaying other ranked candidates (#2, #3, etc.) below with rank badges and one-tap "Select" / "Add to my route".
 
-### 9. STAGE 12 — Dedicated Travel Planner with Group-Aware Planning
+### 9. Dedicated Travel Planner with Group-Aware Planning
 - Dedicated **"Plan"** tab in the app navigation shell (`Ask ANUBHAV`, `Plan`, `Live Map`, `Explore`).
 - **Today's Overview**: Real-time Ghat Congestion Forecast with color-coded hourly bar chart across the day (green/orange/red) for Ramkund vs Talkuteshwar Ghat, plus an **Optimal Darshan Window** callout (*"07:15–08:30 AM, target wait <15 min"*).
 - **"Plan for Today" Intake Form**: Captures party size, elderly members count (60+), children count (under 12), arrival time, and transport mode.
@@ -171,7 +171,7 @@ During the **Nashik Trimbakeshwar Kumbh Mela 2026**, over 10 million pilgrims ar
   - **"Start Journey"**: Accepts the recommendation, generates the route to Talkuteshwar, and switches directly to Live Map.
   - **"Plan for Ramkund instead"**: Honors explicit user override, generates a route to Ramkund with an active crowd safety advisory, and flags the nearest medical post.
 
-### 10. STAGE 13 — Complete Teammate UI Merge & Single Navigation System
+### 10. Complete Teammate UI Merge & Single Navigation System
 
 <div align="center">
   <img src="Current%20Screenshot%20of%20app.png" alt="ANUBHAV Current Production Application UI" width="100%" />
@@ -182,8 +182,8 @@ During the **Nashik Trimbakeshwar Kumbh Mela 2026**, over 10 million pilgrims ar
   - Cohesive Kumbh color palette: Saffron Primary (`#A33900`), Sacred Blue (`#1D4ED8`), Marigold Gold (`#855300`), and semantic crowd density colors.
 - **GoRouter Navigation with 5 First-Class Branches**:
   - `/home`: Live crowd heatmap, search bar, one-tap shortcut icons, and live aggregate telemetry cards.
-  - `/plan`: Stage 12 Travel Planner, Rule 1a group-aware vulnerable substitution, and hourly crowd forecast.
-  - `/route`: Segmented crowd-colored polylines (Stage 10), crowd-tinted POI markers, simulation toolbar (Stage 6), proximity alerts (Stage 8), and return-to-parking CTA (Stage 9).
+  - `/plan`: Travel Planner, Rule 1a group-aware vulnerable substitution, and hourly crowd forecast.
+  - `/route`: Segmented crowd-colored polylines, crowd-tinted POI markers, simulation toolbar, proximity alerts, and return-to-parking CTA.
   - `/help`: Emergency SOS dispatch, Lost & Found reports, Medical Camps, Volunteer Desks, Admin Directory, and Safety Guidelines.
   - `/more`: Multilingual language selector, app preferences, and guide.
 - **Desktop & Web Mode Support**:
