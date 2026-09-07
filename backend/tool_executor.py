@@ -242,11 +242,69 @@ def set_advisory_active(advisory_id, severity="critical", active=True):
 
     return updated_obj
 
-# ---------- TOOL 4: get_nearby (find food/toilet near me) ----------
+# ---------- TOOL 4: get_nearby (find food/toilet/medical/water near me) ----------
 
-def get_nearby(category, lat, lng, radius_m=1000, max_results=8):
-    if category in ("food", "grocery", "vegetable_market"):
+WATER_POINTS = [
+    {
+        "id": "water_0001",
+        "category": "water",
+        "name": "Panchavati Jal Seva Kendra",
+        "lat": 20.0062,
+        "lng": 73.7915,
+        "address": "Opposite Kalaram Temple East Gate, Panchavati",
+        "facility_type": "RO_DRINKING_WATER",
+        "current_crowd_level_SYNTH": "low",
+        "queue_wait_minutes_SYNTH": 1,
+        "rating": 4.8
+    },
+    {
+        "id": "water_0002",
+        "category": "water",
+        "name": "Ramkund Godavari Purified RO Water Kiosk",
+        "lat": 20.0074,
+        "lng": 73.7924,
+        "address": "North Bank Pavilion, Ramkund Sacred Ghat",
+        "facility_type": "RO_DRINKING_WATER",
+        "current_crowd_level_SYNTH": "medium",
+        "queue_wait_minutes_SYNTH": 4,
+        "rating": 4.6
+    },
+    {
+        "id": "water_0003",
+        "category": "water",
+        "name": "Kapaleshwar Temple Chilled Water Post",
+        "lat": 20.0078,
+        "lng": 73.7928,
+        "address": "Temple Chowk, Kapaleshwar Road",
+        "facility_type": "COLD_DRINKING_WATER",
+        "current_crowd_level_SYNTH": "low",
+        "queue_wait_minutes_SYNTH": 2,
+        "rating": 4.7
+    },
+    {
+        "id": "water_0004",
+        "category": "water",
+        "name": "Talkuteshwar Holding Area Water Hub",
+        "lat": 20.0031,
+        "lng": 73.7977,
+        "address": "Talkuteshwar Ghat Entrance Gate 1",
+        "facility_type": "RO_DRINKING_WATER",
+        "current_crowd_level_SYNTH": "low",
+        "queue_wait_minutes_SYNTH": 0,
+        "rating": 4.5
+    }
+]
+
+def get_nearby(category, lat, lng, radius_m=1200, max_results=8):
+    cat = (category or "").lower().strip()
+    if cat in ("food", "grocery", "vegetable_market"):
         pool = [f for f in FOOD if f.get("category") in ("food", "grocery", "vegetable_market")]
+    elif cat in ("toilet", "toilets", "lavatory", "washroom"):
+        pool = [f for f in FACILITIES if f.get("category") in ("toilet", "toilets") or "toilet" in f.get("name", "").lower()]
+    elif cat in ("medical", "hospital", "doctor", "ambulance"):
+        pool = [f for f in FACILITIES if f.get("category") in ("hospital", "ambulance", "blood_bank", "diagnostic_lab", "medical")]
+    elif cat in ("water", "drinking_water", "jal"):
+        pool = [f for f in FACILITIES if f.get("category") == "water" or "water" in f.get("name", "").lower()] + WATER_POINTS
     else:
         pool = [f for f in FACILITIES if f.get("category") == category]
 
@@ -255,6 +313,13 @@ def get_nearby(category, lat, lng, radius_m=1000, max_results=8):
         d = haversine_m(lat, lng, p["lat"], p["lng"])
         if d <= radius_m:
             out.append({**p, "distance_m": round(d)})
+
+    # Fallback: if search within radius is empty, take the closest 4 from pool
+    if not out and pool:
+        for p in pool:
+            d = haversine_m(lat, lng, p["lat"], p["lng"])
+            out.append({**p, "distance_m": round(d)})
+
     out.sort(key=lambda x: x["distance_m"])
     return out[:max_results]
 
@@ -263,24 +328,29 @@ def get_nearby(category, lat, lng, radius_m=1000, max_results=8):
 def rank_by_experience(candidates, factors=("distance", "crowd", "queue", "rating")):
     scored = []
     for c in candidates:
-        crowd = c.get("current_crowd_level_SYNTH") or random.choice(["low", "medium", "high"])
-        queue = c.get("queue_wait_minutes_SYNTH")
+        crowd = c.get("current_crowd_level_SYNTH") or c.get("current_crowd_level") or random.choice(["low", "medium", "high"])
+        queue = c.get("queue_wait_minutes_SYNTH") or c.get("queue_wait_minutes")
         if queue is None:
-            queue = {"low": 2, "medium": 8, "high": 20}.get(crowd, 5) + random.randint(-2, 5)
+            queue = {"low": 2, "medium": 8, "high": 20}.get(crowd, 5) + random.randint(-1, 3)
+        queue = max(0, queue)
         try:
-            rating = float(c.get("rating") or 4.0)
+            rating = float(c.get("rating") or 4.2)
         except Exception:
-            rating = 4.0
+            rating = 4.2
         crowd_penalty = {"low": 0, "medium": 5, "high": 15}.get(crowd, 5)
-        score = c.get("distance_m", 100) * 0.05 + crowd_penalty + queue - rating * 3
+        crowd_color = {"low": "green", "medium": "yellow", "high": "red"}.get(crowd, "green")
+
+        dist_m = c.get("distance_m", 150)
+        score = dist_m * 0.05 + crowd_penalty + queue - rating * 3
         reason_bits = [
-            f"{c.get('distance_m', 0)}m away",
+            f"{dist_m}m away",
             f"{crowd} crowd",
             f"~{queue} min wait"
         ]
         scored.append({
             **c,
             "current_crowd_level": crowd,
+            "crowd_color": crowd_color,
             "queue_wait_minutes": queue,
             "score": round(score, 1),
             "reason": ", ".join(reason_bits)
@@ -364,28 +434,112 @@ def optimize_plan(stops, preferences=None):
 
 # ---------- TOOL 8: get_crowd_levels ----------
 
+KNOWN_CROWD_DEFAULTS = {
+    "ramkund": {"level": "high", "crowd_color": "red", "wait_minutes": 45},
+    "talkuteshwar": {"level": "low", "crowd_color": "green", "wait_minutes": 8},
+    "lakshminarayan": {"level": "medium", "crowd_color": "yellow", "wait_minutes": 15},
+    "kapila": {"level": "low", "crowd_color": "green", "wait_minutes": 10},
+    "someshwar": {"level": "low", "crowd_color": "green", "wait_minutes": 5},
+    "kalaram": {"level": "medium", "crowd_color": "yellow", "wait_minutes": 15},
+    "kapaleshwar": {"level": "low", "crowd_color": "green", "wait_minutes": 10},
+}
+
 def get_crowd_levels(poi_ids=None, zone=None):
     """
-    Contract: {poi_id, level: low/med/high, wait_minutes, updated_at}
+    Contract per docs/architecture.md:
+    {poi_id, name, level: low/med/high, crowd_color: green/yellow/red, wait_minutes, updated_at}
     Returns crowd estimates for specified POIs or an entire zone.
     """
     results = []
     target_pois = []
     if poi_ids:
-        target_pois = [p for p in ALL_POIS if p.get("id") in poi_ids or p.get("name") in poi_ids]
+        # Match by ID or name
+        for pid in poi_ids:
+            pid_str = str(pid).lower()
+            matched = False
+            for p in ALL_POIS:
+                if str(p.get("id", "")).lower() == pid_str or pid_str in str(p.get("name", "")).lower():
+                    target_pois.append(p)
+                    matched = True
+                    break
+            if not matched:
+                target_pois.append({"id": pid, "name": str(pid)})
     elif zone:
         target_pois = [p for p in ALL_POIS if p.get("zone") == zone][:10]
     else:
         target_pois = ALL_POIS[:5]
 
     for p in target_pois:
-        crowd = random.choice(["low", "medium", "high"])
-        wait = {"low": 5, "medium": 20, "high": 45}[crowd]
+        name_lower = str(p.get("name", "")).lower()
+        matched_default = None
+        for k, v in KNOWN_CROWD_DEFAULTS.items():
+            if k in name_lower or k in str(p.get("id", "")).lower():
+                matched_default = v
+                break
+
+        if matched_default:
+            crowd = matched_default["level"]
+            crowd_color = matched_default["crowd_color"]
+            wait = matched_default["wait_minutes"]
+        else:
+            crowd = random.choice(["low", "medium", "high"])
+            crowd_color = {"low": "green", "medium": "yellow", "high": "red"}[crowd]
+            wait = {"low": 5, "medium": 20, "high": 40}[crowd]
+
         results.append({
             "poi_id": p.get("id"),
             "name": p.get("name"),
             "level": crowd,
+            "crowd_color": crowd_color,
             "wait_minutes": wait,
-            "updated_at": "2026-09-06T21:00:00+05:30"
+            "updated_at": "2026-09-07T09:00:00+05:30"
         })
     return results
+
+def get_ghat_congestion_forecast(ghat_id="ghat_0020"):
+    """
+    Returns hourly congestion forecast across the day (06 AM to 10 PM)
+    and optimal snan window for the specified ghat.
+    """
+    is_ramkund = not ghat_id or "ramkund" in str(ghat_id).lower() or "0020" in str(ghat_id)
+    ghat_name = "Ramkund Sacred Ghat" if is_ramkund else "Talkuteshwar Ghat"
+
+    if is_ramkund:
+        hourly_data = [
+            {"hour": "06 AM", "wait_min": 10, "level": "low", "crowd_color": "green", "height_pct": 0.25, "is_current": False},
+            {"hour": "08 AM", "wait_min": 15, "level": "low", "crowd_color": "green", "height_pct": 0.35, "is_current": False},
+            {"hour": "10 AM", "wait_min": 35, "level": "medium", "crowd_color": "yellow", "height_pct": 0.65, "is_current": False},
+            {"hour": "12 PM", "wait_min": 45, "level": "high", "crowd_color": "red", "height_pct": 0.85, "is_current": True},
+            {"hour": "02 PM", "wait_min": 30, "level": "medium", "crowd_color": "yellow", "height_pct": 0.60, "is_current": False},
+            {"hour": "04 PM", "wait_min": 25, "level": "medium", "crowd_color": "yellow", "height_pct": 0.50, "is_current": False},
+            {"hour": "06 PM", "wait_min": 55, "level": "high", "crowd_color": "red", "height_pct": 1.00, "is_current": False},
+            {"hour": "08 PM", "wait_min": 40, "level": "high", "crowd_color": "red", "height_pct": 0.75, "is_current": False},
+        ]
+        optimal_window = "07:15–08:30 AM, target wait <15 min"
+        tip = "Morning snan offers peaceful sacred immersion before peak mid-day pilgrim influx."
+    else:
+        hourly_data = [
+            {"hour": "06 AM", "wait_min": 3, "level": "low", "crowd_color": "green", "height_pct": 0.15, "is_current": False},
+            {"hour": "08 AM", "wait_min": 5, "level": "low", "crowd_color": "green", "height_pct": 0.20, "is_current": False},
+            {"hour": "10 AM", "wait_min": 10, "level": "low", "crowd_color": "green", "height_pct": 0.30, "is_current": False},
+            {"hour": "12 PM", "wait_min": 15, "level": "medium", "crowd_color": "yellow", "height_pct": 0.40, "is_current": True},
+            {"hour": "02 PM", "wait_min": 8, "level": "low", "crowd_color": "green", "height_pct": 0.25, "is_current": False},
+            {"hour": "04 PM", "wait_min": 12, "level": "low", "crowd_color": "green", "height_pct": 0.32, "is_current": False},
+            {"hour": "06 PM", "wait_min": 20, "level": "medium", "crowd_color": "yellow", "height_pct": 0.50, "is_current": False},
+            {"hour": "08 PM", "wait_min": 10, "level": "low", "crowd_color": "green", "height_pct": 0.30, "is_current": False},
+        ]
+        optimal_window = "07:00–11:00 AM, target wait <10 min"
+        tip = "Step-free ramp access with low crowd density. Ideal for senior citizens and families."
+
+    return {
+        "ghat_id": ghat_id,
+        "ghat_name": ghat_name,
+        "hourly_forecast": hourly_data,
+        "optimal_window": optimal_window,
+        "optimal_tip": tip,
+        "target_wait_min": 12 if is_ramkund else 8,
+        "current_crowd_level": "high" if is_ramkund else "low",
+        "current_crowd_color": "red" if is_ramkund else "green",
+        "updated_at": "2026-09-07T09:00:00+05:30"
+    }
+

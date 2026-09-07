@@ -67,6 +67,31 @@ During the **Nashik Trimbakeshwar Kumbh Mela 2026**, over 10 million pilgrims ar
 - Upon reaching the sacred dip at Ramkund, ANUBHAV announces darshan completion and activates a prominent **"Way Back to Parking"** flow.
 - Generates the return journey (Ramkund $\rightarrow$ Panchavati Drop Point $\rightarrow$ return feeder shuttle to outer parking $\rightarrow$ parked vehicle).
 
+### 7. STAGE 10 — Colour-Coded Crowd Navigation
+- Every `walk_segment` and POI marker carries a dynamic `crowd_color` (`green` = low, `yellow` = medium, `red` = high) computed in real-time from `get_crowd_levels`.
+- The Live Map renders each walking stretch as an independent, segmented polyline in its specific crowd color rather than a single uniform route color.
+- Ghat and POI pins are tinted with matching crowd halo borders and glowing indicator dots.
+- Background polling refreshes segment and marker crowd colors every 30 seconds as crowd density changes.
+
+### 8. STAGE 11 — One-Tap Utility Search (Zero Typing)
+- 4 prominent one-tap utility buttons on the Home screen for urgent pilgrim needs:
+  - 🚻 **Toilet** (Sanitized municipal facilities)
+  - 🏥 **Medical** (Emergency first aid & triage)
+  - 🍲 **Food** (Satvik Annakshetra meals)
+  - 💧 **Water** (Continuous 4-stage RO chilled Jal Seva)
+- Tapping any button immediately pipes `get_nearby` through `rank_by_experience` without typing a single word into the search box.
+- Opens the Stage 8 structured detail sheet for the **#1 Top Pick** (with live sensor status, wait time, crowd trend, why recommended, and amenities), while displaying other ranked candidates (#2, #3, etc.) below with rank badges and one-tap "Select" / "Add to my route".
+
+### 9. STAGE 12 — Dedicated Travel Planner with Group-Aware Planning
+- Dedicated **"Plan"** tab in the app navigation shell (`Ask ANUBHAV`, `Plan`, `Live Map`, `Explore`).
+- **Today's Overview**: Real-time Ghat Congestion Forecast with color-coded hourly bar chart across the day (green/orange/red) for Ramkund vs Talkuteshwar Ghat, plus an **Optimal Darshan Window** callout (*"07:15–08:30 AM, target wait <15 min"*).
+- **"Plan for Today" Intake Form**: Captures party size, elderly members count (60+), children count (under 12), arrival time, and transport mode.
+- **Rule 1a Vulnerable Group Substitution**: If elderly or children are present, the agent automatically recommends **Talkuteshwar Ghat** over Ramkund, displaying visible reasoning:
+  > *"Ramkund currently experiencing heavy congestion (45+ min queue, high density). Recommended Talkuteshwar Ghat — 12 min away, lower crowd, dedicated senior assistance, safe for families."*
+- **Two Clear Action Paths**:
+  - **"Start Journey"**: Accepts the recommendation, generates the route to Talkuteshwar, and switches directly to Live Map.
+  - **"Plan for Ramkund instead"**: Honors explicit user override, generates a route to Ramkund with an active crowd safety advisory, and flags the nearest medical post.
+
 ---
 
 ## 🏛️ System Architecture
@@ -123,6 +148,7 @@ During the **Nashik Trimbakeshwar Kumbh Mela 2026**, over 10 million pilgrims ar
 │   ├── supabase_client.py       # Supabase service-role client
 │   ├── test_return_and_multi.py # Verification for multi-temple & return-to-parking
 │   ├── test_stage9.py           # Verification for outer transit & start journey
+│   ├── test_stage10_11_12.py    # Verification for Stages 10, 11 & 12
 │   └── tool_executor.py         # Real OSRM routing and Supabase tool execution
 ├── data/                        # 3,266 Master Kumbh Geo-Datasets
 │   ├── advisory_corridors.json  # 215 corridor segments
@@ -136,19 +162,20 @@ During the **Nashik Trimbakeshwar Kumbh Mela 2026**, over 10 million pilgrims ar
 ├── flutter_app/                 # Flutter Cross-Platform Client
 │   ├── lib/
 │   │   ├── config.dart          # Supabase & backend configuration constants
-│   │   ├── main.dart            # Navigation entry point (Plan, Live Map, Explore)
-│   │   ├── models/              # Itinerary, POI, and Place models
+│   │   ├── main.dart            # Navigation shell (Ask ANUBHAV, Plan, Live Map, Explore)
+│   │   ├── models/              # Itinerary, POI, Place, and GroupPlanning models
 │   │   ├── screens/
-│   │   │   ├── home_screen.dart        # Voice/Text input & facility search
-│   │   │   ├── map_screen.dart         # Native map stack, simulation, detours
+│   │   │   ├── home_screen.dart        # Voice/Text input & One-Tap Utility Grid
+│   │   │   ├── daily_plan_screen.dart  # Dedicated Plan screen with Ghat Forecast & Group Intake
+│   │   │   ├── map_screen.dart         # Colour-coded segmented polylines & 30s live crowd polling
 │   │   │   ├── explore_screen.dart     # Directory of 3,266 sites
-│   │   │   └── place_detail_screen.dart# Structured telemetry cards & CTAs
+│   │   │   └── place_detail_screen.dart# Structured telemetry cards & ranked alternatives
 │   │   ├── services/
 │   │   │   ├── api_service.dart        # FastAPI HTTP client
 │   │   │   ├── location_service.dart   # GPS & bearing calculation
 │   │   │   ├── supabase_service.dart   # Live Supabase client
 │   │   │   └── voice_service.dart      # Web/Mobile TTS & STT engine
-│   │   └── widgets/             # Nearby carousel, timeline, markers
+│   │   └── widgets/             # Markers, timeline, simulation toolbar, voice sheet
 │   ├── test/                    # 11 unit & widget test suites
 │   └── pubspec.yaml             # Flutter dependencies
 ├── .env.example                 # Sanitized environment template
@@ -214,31 +241,40 @@ flutter run -d chrome
 
 Run these automated verification suites anytime to validate system correctness:
 
-### 1. Backend Multi-Temple & Return-to-Parking Test
+### 1. Backend Stage 10, 11 & 12 Test Suite (Crowd Color, One-Tap, Group Plan)
+```bash
+python backend/test_stage10_11_12.py
+```
+*Validates:*
+- **Stage 10**: Dynamic `crowd_color` on walk segments and POIs (`green`, `yellow`, `red`) and `/crowd-levels` periodic polling.
+- **Stage 11**: One-tap utility search for Toilet, Medical, Food, and Water piped through `rank_by_experience`.
+- **Stage 12**: Ghat congestion hourly forecast bar chart, optimal window callout, Rule 1a vulnerable group substitution to Talkuteshwar, and override handling.
+
+### 2. Backend Multi-Temple & Return-to-Parking Test
 ```bash
 python backend/test_return_and_multi.py
 ```
 *Validates 7-stop family itinerary, outer shuttle transit, and sub-second return journey patching.*
 
-### 2. Backend Outer-Zone Transit & Multilingual Schema Test
+### 3. Backend Outer-Zone Transit & Multilingual Schema Test
 ```bash
 python backend/test_stage9.py
 ```
 *Validates highway vehicle detection, Panjarpol outer staging lot, electric feeder shuttle, and Hindi summary synthesis.*
 
-### 3. Flutter Static Analysis
+### 4. Flutter Static Analysis
 ```bash
 cd flutter_app
 flutter analyze
 ```
-*Expected: 0 issues found.*
+*Expected: 0 issues found (No issues found!).*
 
-### 4. Flutter Unit & Widget Test Suite
+### 5. Flutter Unit & Widget Test Suite
 ```bash
 cd flutter_app
 flutter test
 ```
-*Executes all 11 unit and widget tests covering detours, timeline, detail sheets, and navigation.*
+*Executes unit and widget tests covering detours, timeline, detail sheets, and navigation.*
 
 ---
 
@@ -248,6 +284,8 @@ flutter test
 |---|---|---|---|
 | **Voice / Text** | **Hindi** | *"धुले से कार से आ रहे हैं, रामकुंड में पवित्र स्नान करना है, पूरी यात्रा योजना दीजिए।"* | Identifies Dhule highway arrival $\rightarrow$ assigns **Panjarpol Outer Parking** $\rightarrow$ connects **Govt Feeder Shuttle** to Panchavati $\rightarrow$ walks to Ramkund. Spoken in Hindi. |
 | **Voice / Text** | **Marathi** | *"आई-वडिलांसोबत नाशिकमधील प्रमुख मंदिरांचे दर्शन घ्यायचे आहे, नियोजन करा."* | Crowd-aware check: avoids high-crowd ghat first $\rightarrow$ sequences **Kalaram Temple (wheelchair ramp)** $\rightarrow$ **Kapaleshwar Temple** $\rightarrow$ **Ramkund Ghat**. Spoken in Marathi. |
+| **One-Tap Utility** | **Any** | Tap **"Toilet"**, **"Medical"**, **"Food"**, or **"Water"** on Home | Instant ranked retrieval without typing $\rightarrow$ opens Stage 8 structured detail sheet for #1 pick $\rightarrow$ lists alternatives (#2, #3...) below $\rightarrow$ 1-tap "Add to my route". |
+| **Travel Planner** | **Any** | Open **"Plan"** tab $\rightarrow$ Set Party Size: 4, Elderly: 2 | Rule 1a substitution triggered: recommends **Talkuteshwar Ghat** with visible safety reasoning $\rightarrow$ provides **"Start Journey"** or **"Plan for Ramkund instead"** override. |
 | **In-Journey Detour** | **Any** | Tap **"🚻 Toilets Near Me"** or **"🍜 Food Near Me"** $\rightarrow$ Tap **"Detour Here"** | Reroutes current route through the selected amenity in <0.5s and continues to Ramkund with voice announcement. |
 | **Return Flow** | **Any** | Reach Ramkund in Simulation $\rightarrow$ Tap **"Way Back"** | Automatically generates the return leg back to the parked vehicle via Panchavati feeder shuttle. |
 
@@ -257,5 +295,6 @@ flutter test
 
 1. **Active Online Supabase Instance Preloaded**: All 3,266 Kumbh records are hosted and immediately queried.
 2. **Dual-LLM High Availability**: If Google Gemini encounters rate limits (HTTP 429), ANUBHAV automatically fails over to Groq without crashing or stalling.
-3. **True OSRM Geometries**: All polyline coordinates trace real walkable roads and pedestrian corridors in Nashik.
+3. **True OSRM Geometries & Colour-Coded Navigation**: All polyline coordinates trace real walkable roads and pedestrian corridors in Nashik, dynamically color-coded by real-time crowd density.
 4. **Hands-Free Accessibility**: Spoken audio operates out of the box with an accessible mute toggle for crowds.
+5. **Group-Aware Safety**: Explicit Rule 1a protects seniors and young children by substituting congested ghats with calmer alternatives while honoring user overrides.

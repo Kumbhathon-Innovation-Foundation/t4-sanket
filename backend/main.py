@@ -29,6 +29,7 @@ from schemas import (
     PlanRequest,
     PatchRequest,
     PublishAdvisoryRequest,
+    NearbySearchRequest,
     ItinerarySchema,
     ItineraryPatch
 )
@@ -79,8 +80,8 @@ def create_plan(req: PlanRequest):
     if req.mode == "structured" and req.form_data:
         prompt = f"Plan trip for pilgrim: {req.message}. Details: {req.form_data}"
 
-    # Run agent loop
-    itinerary = run_agent_loop(user_message=prompt)
+    # Run agent loop with form_data for group-aware planning (Stage 12)
+    itinerary = run_agent_loop(user_message=prompt, form_data=req.form_data)
 
     trip_id = itinerary.get("trip_id") or f"trip_{uuid.uuid4().hex[:8]}"
     itinerary["trip_id"] = trip_id
@@ -169,6 +170,7 @@ def _recompute_affected_segment_for_visit(
         "eta": eta_walk_1,
         "duration_min": walk1_min,
         "polyline": route_to_poi.get("polyline", []),
+        "crowd_color": "green",
         "pois_along_route": []
     })
     order += 1
@@ -180,7 +182,8 @@ def _recompute_affected_segment_for_visit(
         "name": poi_name,
         "poi_id": poi_id,
         "eta": eta_visit_poi,
-        "suggested_duration_min": 20
+        "suggested_duration_min": 20,
+        "crowd_color": "green"
     })
     order += 1
 
@@ -194,6 +197,7 @@ def _recompute_affected_segment_for_visit(
         "eta": eta_walk_2,
         "duration_min": walk2_min,
         "polyline": route_from_poi_to_dest.get("polyline", []),
+        "crowd_color": "yellow",
         "pois_along_route": []
     })
     order += 1
@@ -275,6 +279,7 @@ def _generate_return_to_parking_itinerary(
             "eta": cur_time.strftime("%H:%M"),
             "duration_min": walk_min,
             "polyline": walk_route.get("polyline", []),
+            "crowd_color": "green",
             "pois_along_route": []
         })
         order += 1
@@ -323,6 +328,7 @@ def _generate_return_to_parking_itinerary(
             "eta": cur_time.strftime("%H:%M"),
             "duration_min": walk_min,
             "polyline": walk_route.get("polyline", []),
+            "crowd_color": "green",
             "pois_along_route": []
         })
         order += 1
@@ -536,3 +542,75 @@ def get_trip(trip_id: str):
     if not res.data:
         raise HTTPException(status_code=404, detail=f"Trip '{trip_id}' not found")
     return res.data[0]
+
+# =========================================================================
+# STAGE 10: Live Crowd Levels Endpoint
+# =========================================================================
+@app.get("/crowd-levels")
+def get_crowd_levels_endpoint(poi_ids: Optional[str] = None, zone: Optional[str] = None):
+    """
+    Returns live crowd levels with color coding (green/yellow/red)
+    for POIs, ghats, or specified zone. Supports periodic UI refresh.
+    """
+    ids = [i.strip() for i in poi_ids.split(",") if i.strip()] if poi_ids else None
+    levels = te.get_crowd_levels(poi_ids=ids, zone=zone)
+    return {
+        "status": "success",
+        "timestamp": datetime.now(IST).isoformat(),
+        "crowd_levels": levels
+    }
+
+# =========================================================================
+# STAGE 11: One-Tap Utility Search Endpoint (Toilet, Medical, Food, Water)
+# =========================================================================
+@app.post("/nearby")
+def search_nearby_post(req: NearbySearchRequest):
+    """
+    One-tap utility search: calls get_nearby(category, location) + rank_by_experience().
+    Returns ranked candidates with scoring reasoning, queue wait, and crowd_color.
+    """
+    candidates = te.get_nearby(
+        category=req.category,
+        lat=req.lat or 20.0077,
+        lng=req.lng or 73.7926,
+        radius_m=req.radius_m or 1500
+    )
+    ranked = te.rank_by_experience(candidates)
+    return {
+        "category": req.category,
+        "count": len(ranked),
+        "results": ranked
+    }
+
+@app.get("/nearby")
+def search_nearby_get(
+    category: str,
+    lat: float = 20.0077,
+    lng: float = 73.7926,
+    radius_m: int = 1500
+):
+    """GET variant for quick one-tap utility search."""
+    candidates = te.get_nearby(
+        category=category,
+        lat=lat,
+        lng=lng,
+        radius_m=radius_m
+    )
+    ranked = te.rank_by_experience(candidates)
+    return {
+        "category": category,
+        "count": len(ranked),
+        "results": ranked
+    }
+
+# =========================================================================
+# STAGE 12: Ghat Congestion Forecast & Optimal Window Endpoint
+# =========================================================================
+@app.get("/ghat-forecast")
+def get_ghat_forecast(ghat_id: str = "ghat_0020"):
+    """
+    Returns today's hourly congestion forecast (06 AM to 10 PM)
+    and optimal snan window for the specified ghat.
+    """
+    forecast = te.get_ghat_congestion_forecast(ghat_id=ghat_id)
+    return forecast

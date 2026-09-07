@@ -25,6 +25,12 @@ class PublishAdvisoryRequest(BaseModel):
     severity: str = Field("critical", description="Severity level: 'critical', 'warning', 'info'")
     active: bool = Field(True, description="Whether to activate (True) or deactivate (False)")
 
+class NearbySearchRequest(BaseModel):
+    category: str = Field(..., description="Category: 'toilet', 'medical', 'food', 'water'")
+    lat: Optional[float] = Field(20.0077, description="Current user latitude")
+    lng: Optional[float] = Field(73.7926, description="Current user longitude")
+    radius_m: Optional[int] = Field(1500, description="Search radius in meters")
+
 class PoiAlongRoute(BaseModel):
     poi_id: str
     name: str
@@ -32,10 +38,11 @@ class PoiAlongRoute(BaseModel):
     trigger_distance_m: Optional[int] = 50
     short_description: Optional[str] = ""
     detail_available: Optional[bool] = True
+    crowd_color: Optional[str] = Field("green", description="'green', 'yellow', or 'red'")
 
 class Stop(BaseModel):
     order: int
-    type: str  # 'parking', 'walk_segment', 'drive_segment', 'visit', 'facility'
+    type: str  # 'parking', 'walk_segment', 'transit_segment', 'visit', 'facility'
     name: Optional[str] = None
     poi_id: Optional[str] = None
     from_loc: Optional[str] = Field(None, alias="from")
@@ -45,7 +52,12 @@ class Stop(BaseModel):
     suggested_duration_min: Optional[int] = None
     fare_estimate: Optional[Union[int, float]] = None
     capacity_status: Optional[str] = None
+    zone_type: Optional[str] = None
+    transit_required: Optional[bool] = None
+    vehicle_type: Optional[str] = None
+    note: Optional[str] = None
     polyline: Optional[List[List[float]]] = None
+    crowd_color: Optional[str] = Field(None, description="'green', 'yellow', or 'red' computed from get_crowd_levels")
     pois_along_route: Optional[List[Dict[str, Any]]] = None
 
     class Config:
@@ -61,6 +73,9 @@ class ItinerarySchema(BaseModel):
     trip_id: str
     status: str = "active"
     summary_text: str
+    language_code: Optional[str] = "en-IN"
+    detected_language: Optional[str] = "en"
+    group_planning: Optional[Dict[str, Any]] = None
     stops: List[Dict[str, Any]]
     active_advisories: List[Dict[str, Any]] = []
     last_updated: str
@@ -69,5 +84,6 @@ class ItineraryPatch(BaseModel):
     trip_id: str
     patch_reason: str
     stops: List[Dict[str, Any]]
+    group_planning: Optional[Dict[str, Any]] = None
     active_advisories: Optional[List[Dict[str, Any]]] = None
     last_updated: str

@@ -32,9 +32,22 @@ you only use what tools return.
 RESPONSIBILITIES:
 1. Extract structured intent from the user's message:
    - origin, arrival_time, mode_of_transport, purposes (snan/heritage/food/shopping),
-     preferences (avoid_crowd, prefer_safety, minimize_walking), duration, party_size.
+     preferences (avoid_crowd, prefer_safety, minimize_walking), duration, party_size,
+     elderly_count, children_count.
    Ask a clarifying question ONLY if a required field is missing AND cannot be defaulted
-   sensibly (e.g. missing arrival time can default to "now").
+   sensibly (e.g. missing arrival time can default to "now"; party composition can
+   default to elderly_count=0, children_count=0 if the user says nothing about who
+   they're travelling with).
+
+1a. Vulnerable-group ghat selection: if elderly_count > 0 or children_count > 0, do NOT
+    default to the most crowded/well-known ghat (e.g. Ramkund) even if the user named it
+    generically ("snan karna hai") — call get_crowd_levels across nearby ghats and prefer
+    one with a lower crowd level, explicitly telling the user why in the summary (e.g.
+    "aapke saath senior citizens/bachche hain, isliye maine Ramkund ke bajaye [alternative]
+    suggest kiya hai, kam bheed hai"). This substitution must be OVERRIDABLE: if the user
+    explicitly names the specific ghat they want (e.g. "mujhe Ramkund hi jaana hai" / "main
+    ghat par le chalo"), honor that choice, but add a plain safety note about current crowd
+    level rather than silently overriding their explicit request.
 
 2. Call tools in this order when building a fresh plan:
    get_parking_options -> get_route(mode=walking/driving) -> get_crowd_levels(nearby POIs)
@@ -93,7 +106,7 @@ These are the functions you expose to the model (function-calling / tool-use). F
 |---|---|---|---|
 | `get_parking_options` | Nearest parking to destination given vehicle type | origin, destination_zone, vehicle_type | list of {id, name, zone_type: inner/outer, distance_from_dest, capacity_left, fare_estimate, walk_time_to_ghat, transit_required} |
 | `get_route` | Route between two points, driving or walking | from, to, mode | {polyline/waypoints, distance, eta, steps[]} |
-| `get_crowd_levels` | Current + predicted crowd at POIs | poi_ids[] or zone | {poi_id, level: low/med/high, wait_minutes, updated_at} |
+| `get_crowd_levels` | Current + predicted crowd at POIs | poi_ids[] or zone | {poi_id, level: low/med/high, crowd_color: green/yellow/red, wait_minutes, updated_at} |
 | `get_restrictions_and_advisories` | Active PRAVAH alerts affecting a zone/route | zone or route_id | list of {id, type: VIP/road_closure/crowd_surge, severity, affected_segment, active_from, active_to} |
 | `get_pois` | Heritage/food/utility points along or near a route | category, route_id or zone | list of {id, name, category, lat/lng, description, avg_visit_minutes, images[]} |
 | `get_nearby` | Ad-hoc "find X near me" | category, user_location, radius | list of candidate POIs with distance |
@@ -143,6 +156,7 @@ Each tool returns data conforming to a fixed schema — this schema **is** your 
       "eta": "07:25",
       "duration_min": 10,
       "polyline": [...],
+      "crowd_color": "green",
       "pois_along_route": [
         {
           "poi_id": "kalaram_temple",
