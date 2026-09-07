@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:go_router/go_router.dart';
 import '../models/itinerary_models.dart';
+import '../providers/route_provider.dart';
 import '../services/api_service.dart';
 
 class DailyPlanScreen extends StatefulWidget {
-  final Function(Itinerary itinerary, {bool autoStart}) onItineraryLoaded;
+  final Function(Itinerary itinerary, {bool autoStart})? onItineraryLoaded;
   final Itinerary? activeItinerary;
 
   const DailyPlanScreen({
     super.key,
-    required this.onItineraryLoaded,
+    this.onItineraryLoaded,
     this.activeItinerary,
   });
 
@@ -128,7 +131,12 @@ class _DailyPlanScreenState extends State<DailyPlanScreen> {
 
   void _startJourney() {
     if (_currentPlan != null) {
-      widget.onItineraryLoaded(_currentPlan!, autoStart: true);
+      if (widget.onItineraryLoaded != null) {
+        widget.onItineraryLoaded!(_currentPlan!, autoStart: true);
+      }
+      final routeProvider = Provider.of<RouteProvider>(context, listen: false);
+      routeProvider.fetchItinerary(message: _currentPlan!.summaryText);
+      context.go('/route');
     }
   }
 

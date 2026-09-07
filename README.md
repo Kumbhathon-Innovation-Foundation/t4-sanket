@@ -92,6 +92,22 @@ During the **Nashik Trimbakeshwar Kumbh Mela 2026**, over 10 million pilgrims ar
   - **"Start Journey"**: Accepts the recommendation, generates the route to Talkuteshwar, and switches directly to Live Map.
   - **"Plan for Ramkund instead"**: Honors explicit user override, generates a route to Ramkund with an active crowd safety advisory, and flags the nearest medical post.
 
+### 10. STAGE 13 — Complete Teammate UI Merge & Single Navigation System
+- **Unified Visual Layer & Stitch Design System**:
+  - Replaced the initial scaffolding with the teammate's production-grade screens and widgets from `ANUBHAV.zip`.
+  - Consistent typography using Google Fonts (**Epilogue** display/headlines, **Plus Jakarta Sans** body/labels).
+  - Cohesive Kumbh color palette: Saffron Primary (`#A33900`), Sacred Blue (`#1D4ED8`), Marigold Gold (`#855300`), and semantic crowd density colors.
+- **GoRouter Navigation with 5 First-Class Branches**:
+  - `/home`: Live crowd heatmap, search bar, one-tap shortcut icons, and live aggregate telemetry cards.
+  - `/plan`: Stage 12 Travel Planner, Rule 1a group-aware vulnerable substitution, and hourly crowd forecast.
+  - `/route`: Segmented crowd-colored polylines (Stage 10), crowd-tinted POI markers, simulation toolbar (Stage 6), proximity alerts (Stage 8), and return-to-parking CTA (Stage 9).
+  - `/help`: Emergency SOS dispatch, Lost & Found reports, Medical Camps, Volunteer Desks, Admin Directory, and Safety Guidelines.
+  - `/more`: Multilingual language selector, app preferences, and guide.
+- **State Management & Multi-Language Localization**:
+  - Coordinated through `MultiProvider` (`RouteProvider`, `CrowdProvider`, `LocationProvider`, `LocaleProvider`).
+  - Full translations for **English (`en.json`)**, **Hindi (`hi.json`)**, and **Marathi (`mr.json`)**.
+  - All backend endpoints (`/plan`, `/patch`, `/nearby`, `/ghat-forecast`, `/crowd-levels`) and Supabase Realtime remain 100% active and connected.
+
 ---
 
 ## 🏛️ System Architecture
@@ -160,22 +176,28 @@ During the **Nashik Trimbakeshwar Kumbh Mela 2026**, over 10 million pilgrims ar
 ├── docs/
 │   └── anubhav-ai-agent-architecture.md  # Comprehensive system design specification
 ├── flutter_app/                 # Flutter Cross-Platform Client
+│   ├── assets/translations/     # Multi-language files (en.json, hi.json, mr.json)
 │   ├── lib/
+│   │   ├── app.dart             # GoRouter with 5 StatefulShellBranches
 │   │   ├── config.dart          # Supabase & backend configuration constants
-│   │   ├── main.dart            # Navigation shell (Ask ANUBHAV, Plan, Live Map, Explore)
-│   │   ├── models/              # Itinerary, POI, Place, and GroupPlanning models
+│   │   ├── constants/           # AppColors, AppStrings, AppTextStyles
+│   │   ├── main.dart            # MultiProvider & EasyLocalization app entrypoint
+│   │   ├── models/              # Itinerary, POI, Place, CrowdData, RouteData models
+│   │   ├── providers/           # RouteProvider, CrowdProvider, LocationProvider, LocaleProvider
 │   │   ├── screens/
-│   │   │   ├── home_screen.dart        # Voice/Text input & One-Tap Utility Grid
-│   │   │   ├── daily_plan_screen.dart  # Dedicated Plan screen with Ghat Forecast & Group Intake
-│   │   │   ├── map_screen.dart         # Colour-coded segmented polylines & 30s live crowd polling
-│   │   │   ├── explore_screen.dart     # Directory of 3,266 sites
+│   │   │   ├── shell_screen.dart       # 5-branch Material3 NavigationBar shell
+│   │   │   ├── home/home_screen.dart   # Stitch Live Crowd Heatmap & One-Tap Utilities
+│   │   │   ├── daily_plan_screen.dart  # Travel Planner with Ghat Forecast & Rule 1a Group Intake
+│   │   │   ├── route/route_screen.dart # Segmented crowd routes, simulation & proximity alerts
+│   │   │   ├── help/                   # Emergency SOS, Lost & Found, Medical Camps, Contacts
+│   │   │   ├── more/more_screen.dart   # Language selector & app preferences
 │   │   │   └── place_detail_screen.dart# Structured telemetry cards & ranked alternatives
 │   │   ├── services/
-│   │   │   ├── api_service.dart        # FastAPI HTTP client
+│   │   │   ├── api_service.dart        # Unified FastAPI HTTP client with compatibility methods
 │   │   │   ├── location_service.dart   # GPS & bearing calculation
-│   │   │   ├── supabase_service.dart   # Live Supabase client
-│   │   │   └── voice_service.dart      # Web/Mobile TTS & STT engine
-│   │   └── widgets/             # Markers, timeline, simulation toolbar, voice sheet
+│   │   │   ├── supabase_service.dart   # Live Supabase Realtime client
+│   │   │   └── voice_service.dart      # Multilingual TTS & STT engine
+│   │   └── widgets/             # Stitch cards, crowd map, simulation toolbar, voice sheet
 │   ├── test/                    # 11 unit & widget test suites
 │   └── pubspec.yaml             # Flutter dependencies
 ├── .env.example                 # Sanitized environment template

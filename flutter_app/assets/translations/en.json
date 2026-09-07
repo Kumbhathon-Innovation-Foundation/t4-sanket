@@ -1,0 +1,103 @@
+{
+  "app": {
+    "name": "ANUBHAV",
+    "tagline": "Kumbh Mela Guide"
+  },
+  "nav": {
+    "home": "Home",
+    "plan": "Plan",
+    "route": "Route",
+    "help": "Help",
+    "more": "More"
+  },
+  "home": {
+    "welcome": "Welcome to Kumbh Mela",
+    "live_heatmap": "Live Crowd Heatmap",
+    "total_crowd": "Total Crowd",
+    "live": "LIVE",
+    "just_now": "Just now",
+    "search_hint": "Search Ghats, Temples, etc.",
+    "ghats": "Ghats",
+    "temples": "Temples",
+    "food": "Food",
+    "water": "Water",
+    "toilets": "Toilets",
+    "medical": "Medical",
+    "banner_title": "Sacred Snan timing is now active at Ramkund",
+    "banner_subtitle": "Low congestion expected for the next 2 hours",
+    "banner_label": "View Live Feed"
+  },
+  "route": {
+    "title": "Navigation & Routes",
+    "starting_point": "Your Location",
+    "destination": "Destination",
+    "walk": "Walk",
+    "shuttle": "Shuttle",
+    "rickshaw": "E-Rickshaw",
+    "recommended": "Recommended Route",
+    "original": "Original Route",
+    "best_choice": "Best Choice",
+    "heavy_delay": "Heavy Delay",
+    "congested": "Congested",
+    "start_nav": "Start Guided Navigation",
+    "offline_voice": "Offline Voice & Haptic Nav",
+    "low_crowd": "Low Crowd",
+    "severe_jam": "Severe Jam",
+    "min": "min",
+    "km": "km"
+  },
+  "help": {
+    "title": "Help & Support",
+    "subtitle": "Kumbh Mela Administration",
+    "sos": "SOS Emergency",
+    "sos_confirm": "Emergency Action",
+    "sos_confirm_msg": "Are you sure you want to trigger SOS? This will call emergency services and share your location.",
+    "essential": "Essential Services",
+    "tap_dispatch": "Tap to dispatch help instantly",
+    "emergency": "Emergency",
+    "emergency_desc": "Police, Fire & Ambulance",
+    "lost_found": "Lost & Found",
+    "lost_found_desc": "Report missing persons",
+    "medical_camp": "Medical Camps",
+    "medical_desc": "Locate nearest aid",
+    "volunteer": "Volunteer Desk",
+    "volunteer_desc": "Get on-ground help",
+    "contacts": "Important Contacts",
+    "contacts_desc": "Admin directory",
+    "safety": "Safety Guide",
+    "safety_desc": "Rules & Regulations",
+    "select_lang": "Select Language",
+    "lang_count": "8 available",
+    "blessing": "Har Har Gange",
+    "blessing_msg": "May your pilgrimage be blessed.",
+    "toll_free": "Toll Free Helpline: 1800-KUMBH",
+    "all_desks_active": "All help desks are currently active"
+  },
+  "more": {
+    "about": "About Anubhav",
+    "about_desc": "App version & details",
+    "guide": "App Guide",
+    "guide_desc": "How to use this app",
+    "feedback": "Feedback",
+    "feedback_desc": "Report issues or suggest",
+    "settings": "Settings",
+    "settings_desc": "App preferences"
+  },
+  "lf": {
+    "title": "Lost & Found",
+    "name": "Name of Person/Item",
+    "description": "Description (Clothes, etc.)",
+    "contact": "Your Contact Number",
+    "upload_photo": "Upload Photo",
+    "submit": "Submit Report"
+  },
+  "common": {
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "retry": "Retry",
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "cached_data": "Showing offline data",
+    "no_connection": "No internet connection"
+  }
+}
