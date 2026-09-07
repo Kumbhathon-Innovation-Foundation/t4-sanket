@@ -23,7 +23,7 @@
 
 ## 👥 Team Members
 - [@Gursevaksingh84](https://github.com/Gursevaksingh84)
-- [@SakshiZurale](https://github.com/SakshiZurale)
+- [@SakshiZurale](https://github.com/Sakshi-Zurale)
 - [@kalpesh-28](https://github.com/kalpesh-28)
 - [@warungasenikhil49-byte](https://github.com/warungasenikhil49-byte)
 - [@Jaware-Shruti-15](https://github.com/Jaware-Shruti-15)
@@ -36,7 +36,7 @@
   <img src="one%20slider.jpeg" alt="ANUBHAV Platform Architecture & Solution Overview" width="100%" />
 </div>
 
-> *"PRAVAH already knows what's happening. ANUBHAV ensures every pilgrim knows what to do."*
+> *ANUBHAV ensures every pilgrim knows what to do."*
 
 ### 📌 Core Tenets from the Executive Overview:
 - 🚨 **The Problem & The Critical Gap**: Over 10 million daily pilgrims face intense crowd confusion at ghats, sudden road closures due to VIP movements, parking uncertainty, and language barriers. Operational intelligence exists in the Command Center (PRAVAH), but fails to reach pilgrims in a personalized, actionable form.
